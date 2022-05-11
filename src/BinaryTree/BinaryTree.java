@@ -1,21 +1,21 @@
 package BinaryTree;
 
-public class BinaryTree {
+public class BinaryTree{
 
     private TreeNode root;
 
-    public void addNode(int id, String name){
-        TreeNode newNode = new TreeNode(id, name); //New Node
-
+    /***** FUNCTIONALITY(Start) *****/
+    public void addNode(int id, String name, String occupation){
+        TreeNode newNode = new TreeNode(id, name, occupation);
         if(root == null){
-            root = newNode; //If root is empty then assign new node to root
+            root = newNode;
         }else{
-            TreeNode focusNode = root; //Focus node to focus on specific points of the tree
+            TreeNode focusNode = root;
             TreeNode parent;
             while(true){
                 parent = focusNode;
                 if(id < focusNode.id){
-                    focusNode = focusNode.left; //If id is less than the root id check the left side of the tree
+                    focusNode = focusNode.left;
                     if(focusNode == null){
                         parent.left = newNode;
                         return;
@@ -31,56 +31,69 @@ public class BinaryTree {
         }
     }
 
-    public void inOrderTraverseTree(TreeNode focusNode){
-        if(focusNode != null){
-            inOrderTraverseTree(focusNode.left);
-            System.out.println(focusNode);
-            inOrderTraverseTree(focusNode.right);
-        }
-    }
-
-    public void preOrderTraverseTree(TreeNode focusNode){
-        if(focusNode != null){
-            System.out.println(focusNode);
-            preOrderTraverseTree(focusNode.left);
-            preOrderTraverseTree(focusNode.right);
-        }
-    }
-
-    public void postOrderTraverseTree(TreeNode focusNode){
-        if(focusNode != null){
-            postOrderTraverseTree(focusNode.left);
-            postOrderTraverseTree(focusNode.right);
-            System.out.println(focusNode);
-        }
-    }
-
-    public TreeNode searchTree(int id){
-        TreeNode searchNode = root;
-        while(searchNode.id != id){
-            if(id < searchNode.id){
-                searchNode = searchNode.left;
-            }else{
-                searchNode = searchNode.right;
+    public TreeNode search(int id){
+        if(root != null){
+            TreeNode searchTree = root;
+            while(searchTree.id != id){
+                if(id < searchTree.id){
+                    searchTree = searchTree.left;
+                }else{
+                    searchTree = searchTree.right;
+                }
+                if(searchTree == null){
+                    return null;
+                }
             }
-
-            if(searchNode == null) return null;
+            return searchTree;
         }
-        return searchNode;
+        return null;
     }
+
+    /***** FUNCTIONALITY(End) *****/
+
+    /***** TRAVERSALS(Start) *****/
+
+    public void inOrderTraversal(TreeNode focusNode){
+        if(focusNode != null){
+            inOrderTraversal(focusNode.left);
+            System.out.println(focusNode);
+            inOrderTraversal(focusNode.right);
+        }
+    }
+
+    public void preOrderTraversal(TreeNode focusNode){
+        if(focusNode != null){
+            System.out.println(focusNode);
+            preOrderTraversal(focusNode.left);
+            preOrderTraversal(focusNode.right);
+        }
+    }
+
+    public void postOrderTraversal(TreeNode focusNode){
+        if(focusNode != null){
+            postOrderTraversal(focusNode.left);
+            postOrderTraversal(focusNode.right);
+            System.out.println(focusNode);
+        }
+    }
+
+    /***** TRAVERSALS(End) *****/
+
 
     public static void main(String[] args){
-        BinaryTree newTree = new BinaryTree();
-        newTree.addNode(50, "Osaretin");
-        newTree.addNode(10, "Victoria");
-        newTree.addNode(75, "Ade");
-        newTree.addNode(100, "Boye");
-        newTree.addNode(7, "Sammy");
+        BinaryTree testTree = new BinaryTree();
+        testTree.addNode(47, "Jackie Chan", "Actor");
+        testTree.addNode(11, "Sammy", "Student");
+        testTree.addNode(100, "Boye", "Programmer");
+        testTree.addNode(85, "Ade", "Aspiring Programmer");
+        testTree.addNode(5, "Osaretin", "Sailor");
+        testTree.addNode(22, "Victoria", "Freelancer");
 
-        newTree.postOrderTraverseTree(newTree.root);
-
-        System.out.println("Searching For Victoria");
-        System.out.println(newTree.searchTree(10));
+        //testTree.inOrderTraversal(testTree.root);
+        //testTree.preOrderTraversal(testTree.root);
+        //testTree.postOrderTraversal(testTree.root);
+        System.out.println(testTree.search(100));
     }
+
 
 }
