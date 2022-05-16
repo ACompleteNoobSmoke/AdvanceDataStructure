@@ -1,14 +1,11 @@
 package BinaryTree;
 
-public class TreeNode {
-
-    public TreeNode left;
-    public TreeNode right;
+public class Person {
     public int id;
     public String name;
     public String occupation;
 
-    public TreeNode(int id, String name, String occupation){
+    public Person(int id, String name, String occupation){
         this.id = id;
         this.name = name;
         this.occupation = occupation;
