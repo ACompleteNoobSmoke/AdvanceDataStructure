@@ -1,8 +1,9 @@
 package BinaryTree;
 
-public class BinaryTree implements BinaryTreeFunctions{
+public class BinaryTree implements BinaryTreeFunctions, BinaryTreeTraversal{
 
     public TreeNode root;
+
     @Override
     public boolean isEmpty() {
         return root == null;
@@ -12,6 +13,7 @@ public class BinaryTree implements BinaryTreeFunctions{
     public Person getMin() {
         if(isEmpty()) return null;
         return getMin(root);
+
     }
 
     private Person getMin(TreeNode focusNode){
@@ -33,53 +35,51 @@ public class BinaryTree implements BinaryTreeFunctions{
     }
 
     @Override
-    public void add(Person newPerson) {
+    public void addNode(Person newPerson) {
         if(isEmpty()) root = new TreeNode(newPerson);
-        else insertToTree(newPerson, root);
+        else insertIntoTree(newPerson, root);
     }
 
-    private void insertToTree(Person newPerson, TreeNode focusNode){
+    private void insertIntoTree(Person newPerson, TreeNode focusNode){
         if(newPerson.id < focusNode.data.id){
             if(focusNode.leftSide == null) focusNode.leftSide = new TreeNode(newPerson);
-            else insertToTree(newPerson, focusNode.leftSide);
+            else insertIntoTree(newPerson, focusNode.leftSide);
         }else if(newPerson.id > focusNode.data.id){
             if(focusNode.rightSide == null) focusNode.rightSide = new TreeNode(newPerson);
-            else insertToTree(newPerson, focusNode.rightSide);
+            else insertIntoTree(newPerson, focusNode.rightSide);
         }
     }
 
     @Override
-    public TreeNode searchNode(int id) {
+    public Person searchNode(int id) {
         if(isEmpty()) return null;
-        TreeNode searchNode = root;
+        return searchTree(id, root);
+    }
+
+    private Person searchTree(int id, TreeNode searchNode){
         while(id != searchNode.data.id){
-            if(id < searchNode.data.id){
-                searchNode = searchNode.leftSide;
-            }else if(id > searchNode.data.id){
-                searchNode = searchNode.rightSide;
-            }
+            if(id < searchNode.data.id) searchNode = searchNode.leftSide;
+            else if(id > searchNode.data.id) searchNode = searchNode.rightSide;
             if(searchNode == null) return null;
         }
-        return searchNode;
+        return searchNode.data;
     }
 
     @Override
-    public void removeNode(int id) {
-        root = removeFromTree(id, root);
+    public void deleteNode(int id) {
+        if(isEmpty()) root = null;
+        else root = removeFromTree(id, root);
     }
 
     private TreeNode removeFromTree(int id, TreeNode focusNode){
-        if(isEmpty()) return null;
-        if(id < focusNode.data.id){
+        if(id < focusNode.data.id)
             focusNode.leftSide = removeFromTree(id, focusNode.leftSide);
-        }else if(id > focusNode.data.id){
+        else if(id > focusNode.data.id)
             focusNode.rightSide = removeFromTree(id, focusNode.rightSide);
-        }else{
-            if(focusNode.leftSide == null){
-                return focusNode.rightSide;
-            }else if(focusNode.rightSide == null){
-                return focusNode.leftSide;
-            }
+        else{
+            if(focusNode.leftSide == null) return focusNode.rightSide;
+            else if(focusNode.rightSide == null) return focusNode.leftSide;
+
             focusNode.data = getMax(focusNode.leftSide);
             focusNode.leftSide = removeFromTree(focusNode.data.id, focusNode.leftSide);
         }
@@ -112,20 +112,4 @@ public class BinaryTree implements BinaryTreeFunctions{
             System.out.println(focusNode);
         }
     }
-
-   public static void main(String[] args){
-       BinaryTree test = new BinaryTree();
-       test.add(new Person(50, "Victoria", "Freelancer"));
-       test.add(new Person(10, "Osaretin", "Sailor"));
-       test.add(new Person(100, "Boye", "Programmer"));
-       test.add(new Person(85, "Ade", "Programmer"));
-       test.add(new Person(20, "Sammy", "Student"));
-       test.add(new Person(35, "Armando", "Gamer Designer"));
-
-       //test.removeNode(50);
-       //test.inOrderTraversal(test.root);
-       //test.preOrderTraversal(test.root);
-       //test.postOrderTraversal(test.root);
-       System.out.println(test.getMax());
-   }
 }
