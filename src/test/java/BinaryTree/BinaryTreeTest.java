@@ -14,7 +14,7 @@ class BinaryTreeTest {
 
 
     private BinaryTree btTree;
-    private List<Person> testPeople;
+    public List<Person> testPeople;
 
     @BeforeEach
     public void setUp(){
@@ -25,7 +25,6 @@ class BinaryTreeTest {
 
     public List<Person> getPeople(){
         List<Person> people = new ArrayList<>();
-        people.add(new Person(50, "Victoria", "Freelancer"));
         people.add(new Person(50, "Victoria", "Freelancer"));
         people.add(new Person(10, "Osaretin", "Sailor"));
         people.add(new Person(100, "Boye", "Programmer"));
