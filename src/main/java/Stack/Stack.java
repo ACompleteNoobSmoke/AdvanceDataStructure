@@ -25,7 +25,7 @@ public class Stack implements StackMethods{
     @Override
     public Person pop() {
         if(isEmpty()) return null;
-        Person removePerson = stackOfPeople[size--];
+        Person removePerson = stackOfPeople[--size];
         return removePerson;
     }
 
