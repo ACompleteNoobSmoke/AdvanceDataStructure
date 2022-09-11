@@ -1,5 +1,7 @@
 package Heap;
 
+import java.util.Arrays;
+
 public class MaximumHeap<T extends Comparable<T>> extends Heap<T> {
 
     @Override
@@ -36,7 +38,11 @@ public class MaximumHeap<T extends Comparable<T>> extends Heap<T> {
 
     @Override
     public void sort() {
-
+        for(int i = 0; i <= position; i++){
+            swap(0, position - i);
+            fixDownward(position - i - 1);
+        }
+        Arrays.stream(heap).forEach(System.out::println);
     }
 }
 
