@@ -1,18 +1,24 @@
 package SkipList;
 
-public class SkipListNode {
+public class SkipListNode<T extends Comparable<T>> {
 
-    public SkipListNode above;
     public SkipListNode below;
     public SkipListNode next;
-    public SkipListNode prev;
-    public int key;
+    public T key;
+    int level;
 
-    public SkipListNode(int key){
-        this.key = key;
-        this.above = null;
+    public SkipListNode(){
+        this.key = null;
+        this.level = -1;
         this.below = null;
         this.next = null;
-        this.prev = null;
     }
+
+    public SkipListNode(T key, int level, SkipListNode below, SkipListNode next){
+        this.key = key;
+        this.level = level;
+        this.below = below;
+        this.next = next;
+    }
+
 }

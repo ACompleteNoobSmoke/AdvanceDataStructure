@@ -25,6 +25,10 @@ public class ArrayQueue<T> {
         return size == 0;
     }
 
+    public int getFrontIndex(){
+        return front;
+    }
+
     private boolean isNull(T data) {
         return data == null;
     }
@@ -40,13 +44,14 @@ public class ArrayQueue<T> {
         if(isEmpty()) front = 0;
         if (isFull()) {
         }
-        backingArray[(front + size++) % backingArray.length] = data;
+        backingArray[(front + size++) % backingArrayLength()] = data;
     }
 
 
     public T dequeue() {
         if(isEmpty()) throw new IllegalArgumentException("Error: The Queue Is Empty");
-        T removedData = backingArray[front++];
+        T removedData = backingArray[front];
+        backingArray[front++] = null;
         size--;
         return removedData;
     }

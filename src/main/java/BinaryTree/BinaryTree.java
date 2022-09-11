@@ -13,7 +13,6 @@ public class BinaryTree implements BinaryTreeFunctions, BinaryTreeTraversal{
     public Person getMin() {
         if(isEmpty()) return null;
         return getMin(root);
-
     }
 
     private Person getMin(TreeNode focusNode){
