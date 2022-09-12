@@ -1,11 +1,7 @@
 package Heap;
 
-import java.util.Arrays;
-
-public class MaximumHeap<T extends Comparable<T>> extends Heap<T> {
-
-    @Override
-    protected void fixUpward() {
+public class MaximumHeap<T extends Comparable<T>> extends Heap<T>{
+    protected void fixUpward(){
         int index = position;
         int parentIndex = (index - 1) / 2;
         while(parentIndex >= 0 && heap[index].compareTo(heap[parentIndex]) > 0){
@@ -15,8 +11,7 @@ public class MaximumHeap<T extends Comparable<T>> extends Heap<T> {
         }
     }
 
-    @Override
-    protected void fixDownward(int endIndex) {
+    protected void fixDownward(int endIndex){
         if(endIndex == -1) return;
         int index = 0;
         while(index <= endIndex){
@@ -24,25 +19,16 @@ public class MaximumHeap<T extends Comparable<T>> extends Heap<T> {
             int rightChildIndex = 2 * index + 2;
             if(leftChildIndex > endIndex) break;
 
-            int childToSwap = rightChildIndex > endIndex ? leftChildIndex
-                                : heap[leftChildIndex].compareTo(heap[rightChildIndex]) > 0
-                                ? leftChildIndex
-                                : rightChildIndex;
+            int childToSwap = rightChildIndex > endIndex
+                              ? leftChildIndex
+                              : heap[leftChildIndex].compareTo(heap[rightChildIndex]) > 0
+                                    ? leftChildIndex
+                                    : rightChildIndex;
 
             if(heap[index].compareTo(heap[childToSwap]) > 0) break;
             swap(index, childToSwap);
             index = childToSwap;
         }
-    }
-
-
-    @Override
-    public void sort() {
-        for(int i = 0; i <= position; i++){
-            swap(0, position - i);
-            fixDownward(position - i - 1);
-        }
-        Arrays.stream(heap).forEach(System.out::println);
     }
 }
 
