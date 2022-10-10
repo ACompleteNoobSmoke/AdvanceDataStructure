@@ -1,65 +1,47 @@
 package Stack;
 
-import BinaryTree.Person;
+public class Stack{
+    private int capacity;
+    private int currentSize;
+    private Books[] bookStack;
 
-public class Stack implements StackMethods{
-
-    private int size;
-    private int limit;
-    private Person[] stackOfPeople;
-
-    public Stack(int limit){
-        this.size = 0;
-        this.limit = limit;
-        stackOfPeople = new Person[limit];
+    public Stack(int capacity){
+        this.capacity = capacity;
+        this.currentSize = 0;
+        this.bookStack = new Books[capacity];
     }
 
+    private boolean isEmpty(){ return currentSize == 0; }
+    private boolean isFull(){ return currentSize == capacity; }
 
-    @Override
-    public boolean push(Person newPerson) {
+    public boolean push(Books newBook){
         if(isFull()) return false;
-        stackOfPeople[size++] = newPerson;
+        bookStack[currentSize++] = newBook;
         return true;
     }
 
-    @Override
-    public Person pop() {
+    public Books pop(){
         if(isEmpty()) return null;
-        Person removePerson = stackOfPeople[--size];
-        return removePerson;
+        Books removeBook = bookStack[--currentSize];
+        bookStack[currentSize] = null;
+        return removeBook;
     }
 
-    @Override
-    public Person peek() {
+    public Books peek(){
         if(isEmpty()) return null;
-        return stackOfPeople[size-1];
+        return bookStack[currentSize - 1];
     }
 
-    public void printAll(){
-        System.out.println("*** Print All ***");
-        if(isEmpty()) System.out.println("Stack Is Currently Empty");
-        for(int i = size-1; i >=0; i--){
-            System.out.println(stackOfPeople[i]);
+    public int getCapacity(){ return capacity; }
+
+    public int getCurrentSize(){ return currentSize; }
+
+    public void viewAll(){
+        if(isEmpty()) return;
+        for(int i = currentSize-1; i >= 0; i--){
+            System.out.println(bookStack[i]);
         }
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
-    @Override
-    public boolean isFull() {
-        return size == limit;
-    }
-
-    @Override
-    public int getSize(){
-        return size;
-    }
-
-    @Override
-    public int getLimit(){
-        return limit;
-    }
 }
