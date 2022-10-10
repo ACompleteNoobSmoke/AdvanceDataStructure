@@ -26,7 +26,7 @@ public class StackTest {
     }
 
     @Test
-    public void testPopFunction(){
+    public void testPushFunction(){
         Books theStand = getBooksArray()[0];
         boolean result = underTest.push(theStand);
         underTest.viewAll();
@@ -34,7 +34,7 @@ public class StackTest {
     }
 
     @Test
-    public void testPopFunction2(){
+    public void testPushFunction2(){
        for(int i = 0; i < 2; i++)
            underTest.push(getBooksArray()[i]);
         underTest.viewAll();
@@ -42,7 +42,7 @@ public class StackTest {
     }
 
     @Test
-    public void testPopFunction3(){
+    public void testPushFunction3(){
         Arrays.stream(getBooksArray()).forEach(underTest::push);
         Books monster = new Books("Monster", "Walter Dean Myers", 1999);
         boolean bookPushed = underTest.push(monster);
