@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {
@@ -48,5 +49,71 @@ public class StackTest {
         boolean bookPushed = underTest.push(monster);
         underTest.viewAll();
         assertFalse(bookPushed);
+    }
+
+    @Test
+    public void testPopFunction1(){
+        Arrays.stream(getBooksArray()).forEach(underTest::push);
+        System.out.println("BEFORE\n");
+        underTest.viewAll();
+        Books bookRemoved = underTest.pop();
+        System.out.println("AFTER\n");
+        underTest.viewAll();
+        assertThat(bookRemoved).isEqualToComparingFieldByField(getBooksArray()[getBooksArray().length - 1]);
+    }
+
+    @Test
+    public void testPopFunction2(){
+        Arrays.stream(getBooksArray()).forEach(underTest::push);
+        System.out.println("BEFORE\n");
+        underTest.viewAll();
+        while(underTest.getCurrentSize() > 0)
+            underTest.pop();
+        System.out.println("AFTER\n");
+        underTest.viewAll();
+        assertEquals(0, underTest.getCurrentSize());
+    }
+
+    @Test
+    public void testPopFunction3(){
+        Arrays.stream(getBooksArray()).forEach(underTest::push);
+        System.out.println("BEFORE\n");
+        underTest.viewAll();
+        while(underTest.getCurrentSize() > 0)
+            underTest.pop();
+        System.out.println("AFTER\n");
+        underTest.viewAll();
+        Books bookRemoved = underTest.pop();
+        assertNull(bookRemoved);
+    }
+
+    @Test
+    public void testPeekFunction1(){
+        for(int i = 0; i < 2; i++)
+            underTest.push(getBooksArray()[i]);
+        Books peekBook = underTest.peek();
+        Books fromArray = getBooksArray()[1];
+        assertThat(peekBook.getBookTitle()).isEqualTo(fromArray.getBookTitle());
+        assertEquals(peekBook.getBookAuthor(), fromArray.getBookAuthor());
+        assertEquals(peekBook.getBookPublish(), fromArray.getBookPublish());
+
+    }
+
+    @Test
+    public void testPeekFunction2(){
+        Books[] bookArray = getBooksArray();
+        Arrays.stream(bookArray).forEach(underTest::push);
+        underTest.pop();
+        Books peekBook = underTest.peek();
+        Books compareBook = bookArray[3];
+        assertEquals(peekBook.getBookTitle(), compareBook.getBookTitle());
+        assertEquals(peekBook.getBookAuthor(), compareBook.getBookAuthor());
+        assertEquals(peekBook.getBookPublish(), compareBook.getBookPublish());
+    }
+
+    @Test
+    public void testPeekFunction3(){
+        Books peekBook = underTest.peek();
+        assertNull(peekBook);
     }
 }
