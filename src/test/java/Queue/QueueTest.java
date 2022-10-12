@@ -11,10 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QueueTest {
 
     private Queue underTest;
+    private int testCapacity = 5;
 
     @BeforeEach
     public void setUp(){
-        underTest = new Queue(5);
+        underTest = new Queue(testCapacity);
     }
 
     private Song[] getSongsArray(){
@@ -39,7 +40,7 @@ public class QueueTest {
     public void testEnqueueFunction2(){
         Arrays.stream(getSongsArray()).forEach(underTest::enqueue);
         underTest.viewAll();
-        assertEquals(5, underTest.getCurrentSize());
+        assertEquals(testCapacity, underTest.getCurrentSize());
     }
 
     @Test
