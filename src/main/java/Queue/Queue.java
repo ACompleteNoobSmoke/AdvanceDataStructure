@@ -1,75 +1,58 @@
 package Queue;
 
-import BinaryTree.Person;
+public class Queue{
+    private int capacity;
+    private int currentSize;
+    private Song[] songsQ;
 
-public class Queue implements QueueMethods<Person> {
-
-    private int limit;
-    private int size;
-    private Person[] queue;
-
-    public Queue(int limit){
-        this.size = 0;
-        this.limit = limit;
-        queue = new Person[limit];
+    public Queue(int capacity){
+        this.capacity = capacity;
+        this.currentSize = 0;
+        this.songsQ = new Song[capacity];
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
+    private boolean isEmpty(){
+        return currentSize == 0;
     }
 
-    @Override
-    public boolean isFull() {
-        return size == limit;
+    private boolean isFull(){
+        return currentSize == capacity;
     }
 
-    @Override
-    public boolean enqueue(Person data) {
+    private void resizeArray(){
+        if(isEmpty()) return;
+        if(currentSize == 1){ songsQ[0] = null; return;}
+        for(int i = 0; i < currentSize; i++)
+            songsQ[i] = songsQ[i + 1];
+    }
+
+    public boolean enqueue(Song newSong){
         if(isFull()) return false;
-        queue[size++] = data;
+        songsQ[currentSize++] = newSong;
         return true;
     }
 
-    @Override
-    public Person dequeue() {
+    public Song dequeue(){
         if(isEmpty()) return null;
-        Person newPerson = queue[0];
-        if(size == 1) queue = new Person[limit];
-        else queue = shuffleArray(0, new Person[limit]);
-        size--;
-        return newPerson;
+        Song removeSong = songsQ[0];
+        resizeArray();
+        currentSize--;
+        return removeSong;
     }
 
-    private Person[] shuffleArray(int index, Person[] newQueue){
-        while(index != size){
-            newQueue[index] = queue[index + 1];
-            shuffleArray(++index, newQueue);
-        }
-        return newQueue;
-    }
-
-    @Override
-    public Person peek() {
+    public Song peek(){
         if(isEmpty()) return null;
-        return queue[0];
+        return songsQ[0];
     }
 
-    @Override
-    public void printAll() {
-        System.out.println("*** Print All ***");
-        if(isEmpty()) System.out.println("Queue Is Currently Empty");
-        for(int i = 0; i < size; i++)
-            System.out.println(queue[i]);
+    public void viewAll(){
+        if(isEmpty()) return;
+        for(int i = 0; i < currentSize; i++)
+            System.out.println(songsQ[i]);
     }
 
-    @Override
-    public int getLimit() {
-        return limit;
-    }
+    public int getCapacity(){ return capacity; }
 
-    @Override
-    public int getSize() {
-        return size;
-    }
+    public int getCurrentSize(){ return currentSize; }
+
 }
