@@ -56,4 +56,70 @@ public class QueueTest {
         assertFalse(added);
     }
 
+    @Test
+    @DisplayName("Testing single dequeue call")
+    public void testDequeueFunction1(){
+        Arrays.stream(getSongsArray()).forEach(underTest::enqueue);
+        System.out.println("BEFORE:\n");
+        underTest.viewAll();
+        Song removedSong = underTest.dequeue();
+        System.out.println("AFTER:\n");
+        underTest.viewAll();
+        String title = removedSong.getSongTitle();
+        String artist = removedSong.getSongArtist();
+        String genre = removedSong.getSongGenre();
+        int year = removedSong.getSongReleaseYear();
+        assertEquals(getSongsArray()[0].getSongTitle(), title);
+        assertEquals(getSongsArray()[0].getSongArtist(), artist);
+        assertEquals(getSongsArray()[0].getSongGenre(), genre);
+        assertEquals(getSongsArray()[0].getSongReleaseYear(), year);
+    }
+
+    @Test
+    @DisplayName("Testing multiple dequeue call")
+    public void testDequeueFunction2() {
+        Arrays.stream(getSongsArray()).forEach(underTest::enqueue);
+        System.out.println("BEFORE:\n");
+        underTest.viewAll();
+        for (int i = 0; i < testCapacity; i++) underTest.dequeue();
+        System.out.println("AFTER:\n");
+        underTest.viewAll();
+        assertEquals(0, underTest.getCurrentSize());
+    }
+
+    @Test
+    @DisplayName("Testing dequeue return null when queue is empty")
+    public void testDequeueFunction3() {
+        Arrays.stream(getSongsArray()).forEach(underTest::enqueue);
+        System.out.println("BEFORE:\n");
+        underTest.viewAll();
+        for (int i = 0; i < testCapacity; i++) underTest.dequeue();
+        Song removedSong = underTest.dequeue();
+        System.out.println("AFTER:\n");
+        underTest.viewAll();
+        assertNull(removedSong);
+    }
+
+    @Test
+    @DisplayName("Testing dequeue and adding object back to queue")
+    public void testDequeueFunction4(){
+        Arrays.stream(getSongsArray()).forEach(underTest::enqueue);
+        System.out.println("BEFORE:\n");
+        underTest.viewAll();
+        for(int i = 0; i < testCapacity; i++) underTest.dequeue();
+        Song lilB = new Song("Flex 36", "Lil B",
+                "Hip-Hop/Rap/Based", 2012);
+        underTest.enqueue(lilB);
+        Song peekedSong = underTest.peek();
+        System.out.println("AFTER:\n");
+        underTest.viewAll();
+        String title = peekedSong.getSongTitle();
+        String artist = peekedSong.getSongArtist();
+        String genre = peekedSong.getSongGenre();
+        int year = peekedSong.getSongReleaseYear();
+        assertEquals(lilB.getSongTitle(), title);
+        assertEquals(lilB.getSongArtist(), artist);
+        assertEquals(lilB.getSongGenre(), genre);
+        assertEquals(lilB.getSongReleaseYear(), year);
+    }
 }
