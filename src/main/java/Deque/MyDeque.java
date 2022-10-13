@@ -1,85 +1,88 @@
 package Deque;
 
-import java.util.Arrays;
-
-public class MyDeque {
-
+public class MyDeque<T>{
     private int front;
-    private int size;
-    private int length;
-    private Integer[] nums;
-
-    public MyDeque(int length){
-        this.length = length;
-        this.nums = new Integer[length];
-        size = 0;
-        //front = (0 + size) % length;
-    }
+    private int rear;
+    private T[] deque;
+    private int capacity;
+    private int currentSize;
 
     private boolean isEmpty(){
-        return size == 0;
+        return front == -1 && rear == -1;
     }
 
     private boolean isFull(){
-        return size == length;
+        return (front == 0 && rear == capacity - 1) || (front == rear + 1);
     }
 
-    private int getFrontIndex(){
-        return front;
+    private boolean isFrontRearSameIndex(){
+        return front == rear;
     }
 
-    private int getFront(){
-        if(isEmpty()) return -1;
-        return nums[front];
+    public MyDeque(int capacity){
+        currentSize = 0;
+        front = rear = -1;
+        this.capacity = capacity;
+        deque = (T[]) new Object[capacity];
     }
 
-    private int getLast(){
-        if(isEmpty()) return -1;
-        return nums[(front + (size-1)) % length];
+    public void insertFront(T newItem){
+        if(isFull()) return;
+        if(isEmpty()) front = rear = 0;
+        else if(front == 0) front = capacity - 1;
+        else front--;
+        deque[front] = newItem;
+        currentSize++;
     }
 
-    public void enqueue(int number){
-        if(isEmpty()){
-            System.out.println(front); nums[front] = number; size++; return;}
-        if(isFull()) shift();
-        nums[(front + size++) % length] = number;
+    public void insertRear(T newItem){
+        if(isFull()) return;
+        if(isEmpty()) front = rear = 0;
+        else if(rear == capacity - 1) rear = 0;
+        else rear++;
+        deque[rear] = newItem;
+        currentSize++;
     }
 
-    public void shift(){
-        this.length *= 2;
-        Integer[] newArray = new Integer[length];
-        for(int i = 0; i < size; i++){
-            newArray[i] = nums[(front + (i + 1)) % nums.length];
-            //System.out.print((front + (i + 1)) % nums.length + " ");
-        }
-        front = 0;
-        Arrays.stream(newArray).forEach(System.out::println);
-        nums = newArray;
-    }
-
-    public Integer dequeue(){
+    public T removeFront(){
         if(isEmpty()) return null;
-        int removed = nums[front];
-        nums[front++] = null;
-        front = (front == length-1) ? 0 : front;
-        size--;
-        return removed;
+        T removeItem = deque[front];
+        deque[front] = null;
+        if(isFrontRearSameIndex()) front = rear = 0;
+        else if(front == capacity - 1) front = 0;
+        else front++;
+        currentSize--;
+        return removeItem;
     }
 
-    public Integer[] returnArray(){
-        return nums;
+    public T removeRear(){
+        if(isEmpty()) return null;
+        T removeItem = deque[rear];
+        deque[rear] = null;
+        if(isFrontRearSameIndex()) front = rear = 0;
+        else if(rear == 0) rear = capacity - 1;
+        else rear--;
+        currentSize--;
+        return removeItem;
     }
 
-    public static void main(String[] args){
-        MyDeque deque = new MyDeque(3);
-        deque.enqueue(8);
-        deque.enqueue(9);
-        deque.enqueue(10);
-        deque.enqueue(16);
-        deque.dequeue();
-        deque.enqueue(19);
-        //System.out.println("Item: " + deque.getFront());
-        //Arrays.stream(deque.returnArray()).forEach(System.out::println);
+    public T viewFront(){
+        if(isEmpty()) return null;
+        return deque[front];
     }
 
+    public T viewRear(){
+        if(isEmpty()) return null;
+        return deque[rear];
+    }
+
+    public void viewAll(){
+        if(isEmpty()) return;
+        int index = front;
+        while(index != rear){
+            System.out.println(deque[index]);
+            index = (index +1) % capacity;
+        }
+        System.out.println(deque[rear]);
+    }
 }
