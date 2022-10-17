@@ -23,4 +23,24 @@ public class DequeTest {
         }
         underTest.viewAll();
     }
+
+    @Test
+    public void testInsertFront2(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        boolean added = underTest.insertFront(7);
+        underTest.viewAll();
+        assertFalse(added);
+    }
+
+    @Test
+    public void testInsertRear1(){
+        for(int i = 1; i <= 5; i++) assertTrue(underTest.insertRear(i));
+        underTest.viewAll();
+    }
+
+    @Test
+    public void testInsertRear2(){
+        for(int i = 1; i <= 5; i++) underTest.insertRear(i);
+        assertFalse(underTest.insertRear(6));
+    }
 }
