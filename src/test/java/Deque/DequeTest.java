@@ -43,4 +43,32 @@ public class DequeTest {
         for(int i = 1; i <= 5; i++) underTest.insertRear(i);
         assertFalse(underTest.insertRear(6));
     }
+
+    @Test
+    public void testRemoveFront1(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        int removed = underTest.removeFront();
+        underTest.viewAll();
+        assertEquals(5, removed);
+    }
+
+    @Test
+    public void testRemoveFront2(){
+        for(int i = 1; i <= 5; i++) underTest.insertRear(i);
+        int actualRemoved = underTest.removeFront();
+        underTest.viewAll();
+        assertEquals(1, actualRemoved);
+    }
+
+    @Test
+    public void testRemoveFront3(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        int size = underTest.getSize();
+        for(int i = 0; i < size; i++) underTest.removeFront();
+        Integer actualRemoved = underTest.removeFront();
+        underTest.viewAll();
+        assertNull(actualRemoved);
+    }
+
+
 }
