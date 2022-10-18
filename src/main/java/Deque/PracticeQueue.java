@@ -91,4 +91,12 @@ public class PracticeQueue<T>{
         }
         System.out.println(deque[rear]);
     }
+
+    public int getSize(){
+        return size;
+    }
+
+    public int getCapacity(){
+        return capacity;
+    }
 }
