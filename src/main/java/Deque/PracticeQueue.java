@@ -30,6 +30,10 @@ public class PracticeQueue<T>{
         front = rear = index;
     }
 
+    public int getSize(){ return size; }
+
+    public int getCapacity(){ return capacity; }
+
     public boolean insertFront(T frontData){
         if(isFull()) return false;
         if(isEmpty()) setFrontRearIndex(0);
@@ -90,13 +94,5 @@ public class PracticeQueue<T>{
             frontIndex = (frontIndex + 1) % capacity;
         }
         System.out.println(deque[rear]);
-    }
-
-    public int getSize(){
-        return size;
-    }
-
-    public int getCapacity(){
-        return capacity;
     }
 }
