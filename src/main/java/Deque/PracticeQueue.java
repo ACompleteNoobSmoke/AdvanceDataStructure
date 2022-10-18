@@ -4,7 +4,7 @@ public class PracticeQueue<T>{
     private int front;
     private int rear;
     private int size;
-    private final int capacity;
+    private int capacity;
     private T[] deque;
 
     public PracticeQueue(int capacity){
@@ -19,33 +19,33 @@ public class PracticeQueue<T>{
     }
 
     private boolean isFull(){
-        return (front == 0 && rear == capacity - 1) && (front == rear + 1);
+        return (front == 0 && rear == capacity - 1) || (front == rear + 1);
     }
 
     private boolean isFrontRearSameIndex(){
         return front == rear;
     }
 
-    private void setFrontRear(int setIndex){
-        front = rear = setIndex;
+    private void setFrontRearIndex(int index){
+        front = rear = index;
     }
 
-    public boolean insertFront(T newData){
+    public boolean insertFront(T frontData){
         if(isFull()) return false;
-        if(isEmpty()) setFrontRear(0);
+        if(isEmpty()) setFrontRearIndex(0);
         else if(front == 0) front = capacity - 1;
         else front--;
-        deque[front] = newData;
+        deque[front] = frontData;
         size++;
         return true;
     }
 
-    public boolean insertRear(T newData){
+    public boolean insertRear(T rearData){
         if(isFull()) return false;
-        if(isEmpty()) setFrontRear(0);
+        if(isEmpty()) setFrontRearIndex(0);
         else if(rear == capacity - 1) rear = 0;
         else rear++;
-        deque[rear] = newData;
+        deque[rear] = rearData;
         size++;
         return true;
     }
@@ -54,7 +54,7 @@ public class PracticeQueue<T>{
         if(isEmpty()) return null;
         T removedFrontData = deque[front];
         deque[front] = null;
-        if(isFrontRearSameIndex()) setFrontRear(-1);
+        if(isFrontRearSameIndex()) setFrontRearIndex(-1);
         else if(front == capacity - 1) front = 0;
         else front++;
         size--;
@@ -65,7 +65,7 @@ public class PracticeQueue<T>{
         if(isEmpty()) return null;
         T removedRearData = deque[rear];
         deque[rear] = null;
-        if(isFrontRearSameIndex()) setFrontRear(-1);
+        if(isFrontRearSameIndex()) setFrontRearIndex(-1);
         else if(rear == 0) rear = capacity - 1;
         else rear--;
         size--;
@@ -91,5 +91,4 @@ public class PracticeQueue<T>{
         }
         System.out.println(deque[rear]);
     }
-
 }
