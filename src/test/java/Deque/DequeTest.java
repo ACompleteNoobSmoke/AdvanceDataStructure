@@ -70,5 +70,30 @@ public class DequeTest {
         assertNull(actualRemoved);
     }
 
+    @Test
+    public void testRemoveRear1(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        Integer actualRemoved = underTest.removeRear();
+        underTest.viewAll();
+        assertEquals(1, actualRemoved);
+    }
+
+    @Test
+    public void testRemoveRear2(){
+        for(int i = 1; i <= 5; i++) underTest.insertRear(i);
+        Integer actualRemoved = underTest.removeRear();
+        underTest.viewAll();
+        assertEquals(5, actualRemoved);
+    }
+
+    @Test
+    public void testRemoveRear3(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        int dequeSize = underTest.getSize();
+        while(dequeSize > 0){ underTest.removeRear(); dequeSize--; }
+        underTest.viewAll();
+        assertEquals(0, underTest.getSize());
+    }
+
 
 }
