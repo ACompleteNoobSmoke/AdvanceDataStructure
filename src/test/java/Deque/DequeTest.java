@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DequeTest {
 
     private int capacity = 5;
-    private PracticeQueue<Integer> underTest;
+    private PracticeDeque<Integer> underTest;
 
     @BeforeEach
     public void setUp(){
-        underTest = new PracticeQueue<>(capacity);
+        underTest = new PracticeDeque<>(capacity);
     }
 
     @Test
@@ -95,5 +95,29 @@ public class DequeTest {
         assertEquals(0, underTest.getSize());
     }
 
+    @Test
+    public void testViewFront1(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        int frontValue = underTest.viewFront();
+        underTest.viewAll();
+        assertEquals(5, frontValue);
+    }
+
+    @Test
+    public void testViewFront2(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        underTest.insertFront(6);
+        int frontValue = underTest.viewFront();
+        underTest.viewAll();
+        assertEquals(5, frontValue);
+    }
+
+    @Test
+    public void testViewFront3(){
+        for(int i = 1; i <= 5; i++) underTest.insertRear(i);
+        underTest.viewAll();
+        int frontValue = underTest.viewFront();
+        assertEquals(1, frontValue);
+    }
 
 }

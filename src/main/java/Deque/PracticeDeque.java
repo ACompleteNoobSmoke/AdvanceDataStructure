@@ -22,13 +22,9 @@ public class PracticeQueue<T>{
         return (front == 0 && rear == capacity - 1) || (front == rear + 1);
     }
 
-    private boolean isFrontRearSameIndex(){
-        return front == rear;
-    }
+    private boolean isFrontRearSameIndex(){ return front == rear; }
 
-    private void setFrontRearIndex(int index){
-        front = rear = index;
-    }
+    private void setFrontRearIndex(int index){ front = rear = index; }
 
     public int getSize(){ return size; }
 
