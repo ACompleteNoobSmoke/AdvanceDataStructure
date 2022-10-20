@@ -51,4 +51,31 @@ public class LinkedListTest {
         int linkedListSize = underTest.getSize();
         assertEquals(songListSize, linkedListSize);
     }
+
+    @Test
+    public void insertTail1(){
+        underTest.insertTail(listOfSongs().get(0));
+        underTest.viewAll();
+        int linkedListSize = underTest.getSize();
+        assertEquals(1, linkedListSize);
+    }
+
+    @Test
+    public void insertTail2(){
+        listOfSongs().stream().forEach(underTest::insertTail);
+        underTest.viewAll();
+        int songListSize = listOfSongs().size();
+        int linkedListSize = underTest.getSize();
+        assertEquals(songListSize, linkedListSize);
+    }
+
+    @Test
+    public void insertTail3(){
+        listOfSongs().stream().forEach(underTest::insertHead);
+        underTest.insertTail(new Song("Remind Me", "Röyksopp", "Electronic", 2001));
+        underTest.viewAll();
+        int songListSize = listOfSongs().size();
+        int linkedListSize = underTest.getSize();
+        assertEquals(songListSize + 1, linkedListSize);
+    }
 }
