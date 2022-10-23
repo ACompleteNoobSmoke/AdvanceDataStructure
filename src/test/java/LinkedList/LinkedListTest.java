@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTest {
@@ -110,5 +111,18 @@ public class LinkedListTest {
         underTest.viewAll();
         Song tailSong = underTest.viewTail();
         assertThat(tailSong).isEqualToComparingFieldByField(newSong);
+    }
+
+    @Test
+    public void insertAtIndex4(){
+        listOfSongs().forEach(underTest::insertTail);
+        Song newSong = new Song("Remind Me", "Röyksopp", "Electronic", 2001);
+        int index = 3;
+        underTest.insertAtIndex(index, newSong);
+        //underTest.viewAll();
+        Song indexSong = null;
+        Node<Song> node = underTest.searchNode(index);
+        if(node != null) indexSong = node.getData();
+        assertThat(indexSong).isNotNull().isEqualToComparingFieldByField(newSong);
     }
 }
