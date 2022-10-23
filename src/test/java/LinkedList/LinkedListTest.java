@@ -1,11 +1,13 @@
 package LinkedList;
 
 import Queue.Song;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTest {
@@ -80,5 +82,33 @@ public class LinkedListTest {
         int songListSize = listOfSongs().size();
         int linkedListSize = underTest.getSize();
         assertEquals(songListSize + 1, linkedListSize);
+    }
+
+    @Test
+    public void insertAtIndex1(){
+        underTest.insertAtIndex(5, listOfSongs().get(0));
+        underTest.viewAll();
+        int linkedListSize = underTest.getSize();
+        assertEquals(0, linkedListSize);
+    }
+
+    @Test
+    public void insertAtIndex2(){
+        listOfSongs().forEach(underTest::insertTail);
+        Song newSong = new Song("Remind Me", "Röyksopp", "Electronic", 2001);
+        underTest.insertAtIndex(1, newSong);
+        underTest.viewAll();
+        Song headSong = underTest.viewHead();
+        assertThat(headSong).isEqualToComparingFieldByField(newSong);
+    }
+
+    @Test
+    public void insertAtIndex3(){
+        listOfSongs().forEach(underTest::insertHead);
+        Song newSong = new Song("Remind Me", "Röyksopp", "Electronic", 2001);
+        underTest.insertAtIndex(underTest.getSize() + 1, newSong);
+        underTest.viewAll();
+        Song tailSong = underTest.viewTail();
+        assertThat(tailSong).isEqualToComparingFieldByField(newSong);
     }
 }
