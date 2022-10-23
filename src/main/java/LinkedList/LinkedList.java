@@ -1,5 +1,7 @@
 package LinkedList;
 
+
+
 public class LinkedList<T> {
     private int size;
     private Node<T> head;
@@ -8,6 +10,8 @@ public class LinkedList<T> {
         size = 0;
         head = null;
     }
+
+    public int getSize(){ return size; }
 
     private boolean isEmpty(){
         return head == null || size == 0;
@@ -37,7 +41,7 @@ public class LinkedList<T> {
         if(isEmpty() || index == 1){ insertHead(newData); return;}
         else if(index == size + 1) { insertTail(newData); return;}
         Node<T> current = head;
-        for(int i = 0; i < index; i++) current = current.getNext();
+        for(int i = 1; i < index; i++) current = current.getNext();
         Node<T> newNode = new Node<T>(newData, current.getNext());
         current.setNext(newNode);
         size++;
@@ -81,7 +85,7 @@ public class LinkedList<T> {
         if(isEmpty() || (index <= 0 || index > size)) return null;
         if(index == 1) return head;
         Node<T> current = head;
-        for(int i = 0; i < index; i++) current = current.getNext();
+        for(int i = 1; i < index+1; i++) current = current.getNext();
         return current;
     }
 
