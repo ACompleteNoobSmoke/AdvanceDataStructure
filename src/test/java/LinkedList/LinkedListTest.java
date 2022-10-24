@@ -119,10 +119,27 @@ public class LinkedListTest {
         Song newSong = new Song("Remind Me", "Röyksopp", "Electronic", 2001);
         int index = 3;
         underTest.insertAtIndex(index, newSong);
-        //underTest.viewAll();
         Song indexSong = null;
         Node<Song> node = underTest.searchNode(index);
         if(node != null) indexSong = node.getData();
         assertThat(indexSong).isNotNull().isEqualToComparingFieldByField(newSong);
+    }
+
+    @Test
+    public void removeHead1(){
+        Song headSong = underTest.removeHead();
+        assertNull(headSong);
+    }
+
+    @Test
+    public void removeHead2(){
+        listOfSongs().forEach(underTest::insertTail);
+        System.out.println("BEFORE:\n\n");
+        underTest.viewAll();
+        Song firstSong = listOfSongs().get(0);
+        Song headSong = underTest.removeHead();
+        System.out.println("AFTER:\n\n");
+        underTest.viewAll();
+        assertThat(headSong).isEqualToComparingFieldByField(firstSong);
     }
 }
