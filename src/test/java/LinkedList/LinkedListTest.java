@@ -142,4 +142,16 @@ public class LinkedListTest {
         underTest.viewAll();
         assertThat(headSong).isEqualToComparingFieldByField(firstSong);
     }
+
+    @Test
+    public void removeHead3(){
+        listOfSongs().forEach(underTest::insertHead);
+        System.out.println("BEFORE:\n\n");
+        underTest.viewAll();
+        Song firstSong = listOfSongs().get(listOfSongs().size() - 1);
+        Song headSong = underTest.removeHead();
+        System.out.println("AFTER:\n\n");
+        underTest.viewAll();
+        assertThat(headSong).isEqualToComparingFieldByField(firstSong);
+    }
 }
