@@ -154,4 +154,22 @@ public class LinkedListTest {
         underTest.viewAll();
         assertThat(headSong).isEqualToComparingFieldByField(firstSong);
     }
+
+    @Test
+    public void removeTail1(){
+        Song tailSong = underTest.removeTail();
+        assertNull(tailSong);
+    }
+
+    @Test
+    public void removeTail2(){
+        listOfSongs().forEach(underTest::insertTail);
+        Song lastSong = listOfSongs().get(listOfSongs().size() - 1);
+        System.out.println("BEFORE:\n\n");
+        underTest.viewAll();
+        Song tailSong = underTest.removeTail();
+        System.out.println("AFTER:\n\n");
+        underTest.viewAll();
+        assertThat(tailSong).isEqualToComparingFieldByField(lastSong);
+    }
 }
