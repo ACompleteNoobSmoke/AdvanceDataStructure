@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.in;
@@ -212,7 +213,20 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = listOfSongs().size() - 1;
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index);
+        Song removedSong = underTest.removeAtIndex(index+1);
+        System.out.println("AFTER:\n\n");
+        underTest.viewAll();
+        assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
+    }
+
+    @Test
+    public void removeAtIndex6(){
+        listOfSongs().forEach(underTest::insertTail);
+        System.out.println("BEFORE:\n\n");
+        underTest.viewAll();
+        int index = new Random().nextInt(0, listOfSongs().size() - 1);
+        Song compareSong = listOfSongs().get(index);
+        Song removedSong = underTest.removeAtIndex(index + 1);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
