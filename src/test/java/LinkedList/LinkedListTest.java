@@ -170,6 +170,38 @@ public class LinkedListTest {
         Song tailSong = underTest.removeTail();
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
-        assertThat(tailSong).isEqualToComparingFieldByField(lastSong);
+        assertThat(tailSong).usingRecursiveComparison().isEqualTo(lastSong);
+    }
+
+    @Test
+    public void removeAtIndex1(){
+        Song removedSong = underTest.removeAtIndex(1);
+        assertNull(removedSong);
+    }
+
+    @Test
+    public void removeAtIndex2(){
+        listOfSongs().forEach(underTest::insertTail);
+        Song removedSong = underTest.removeAtIndex(0);
+        assertNull(removedSong);
+    }
+
+    @Test
+    public void removeAtIndex3(){
+        listOfSongs().forEach(underTest::insertHead);
+        Song removedSong = underTest.removeAtIndex(8);
+        assertNull(removedSong);
+    }
+
+    @Test
+    public void removeAtIndex4(){
+        listOfSongs().forEach(underTest::insertTail);
+        System.out.println("BEFORE:\n\n");
+        underTest.viewAll();
+        Song compareSong = listOfSongs().get(0);
+        Song removedSong = underTest.removeAtIndex(1);
+        System.out.println("AFTER:\n\n");
+        underTest.viewAll();
+        assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
     }
 }
