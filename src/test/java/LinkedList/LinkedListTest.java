@@ -231,4 +231,17 @@ public class LinkedListTest {
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
     }
+
+    @Test
+    public void removeAtIndex7(){
+        listOfSongs().forEach(underTest::insertTail);
+        System.out.println("BEFORE:\n\n");
+        underTest.viewAll();
+        int index = 3;
+        Song compareSong = listOfSongs().get(index);
+        Song removedSong = underTest.removeAtIndex(index + 1);
+        System.out.println("AFTER:\n\n");
+        underTest.viewAll();
+        assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
+    }
 }
