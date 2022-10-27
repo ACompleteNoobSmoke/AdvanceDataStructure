@@ -1,7 +1,6 @@
 package LinkedList;
 
 import Queue.Song;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LinkedListTest {
     private LinkedList<Song> underTest;
@@ -41,7 +40,7 @@ public class LinkedListTest {
 
     @Test
     public void insertHead2(){
-        listOfSongs().stream().forEach(underTest::insertHead);
+        listOfSongs().forEach(underTest::insertHead);
         underTest.viewAll();
         int songListSize = listOfSongs().size();
         int linkedListSize = underTest.getSize();
@@ -50,7 +49,7 @@ public class LinkedListTest {
 
     @Test
     public void insertHead3(){
-        listOfSongs().stream().forEach(underTest::insertTail);
+        listOfSongs().forEach(underTest::insertTail);
         underTest.insertHead(new Song("Sicko Mode", "Travis $cott", "Hip-Hop", 2018));
         underTest.viewAll();
         int songListSize = listOfSongs().size();
@@ -69,7 +68,7 @@ public class LinkedListTest {
 
     @Test
     public void insertTail2(){
-        listOfSongs().stream().forEach(underTest::insertTail);
+        listOfSongs().forEach(underTest::insertTail);
         underTest.viewAll();
         int songListSize = listOfSongs().size();
         int linkedListSize = underTest.getSize();
@@ -78,7 +77,7 @@ public class LinkedListTest {
 
     @Test
     public void insertTail3(){
-        listOfSongs().stream().forEach(underTest::insertHead);
+        listOfSongs().forEach(underTest::insertHead);
         underTest.insertTail(new Song("Remind Me", "Röyksopp", "Electronic", 2001));
         underTest.viewAll();
         int songListSize = listOfSongs().size();
@@ -101,7 +100,7 @@ public class LinkedListTest {
         underTest.insertAtIndex(1, newSong);
         underTest.viewAll();
         Song headSong = underTest.viewHead();
-        assertThat(headSong).isEqualToComparingFieldByField(newSong);
+        assertThat(headSong).usingRecursiveComparison().isEqualTo(newSong);
     }
 
     @Test
@@ -111,7 +110,7 @@ public class LinkedListTest {
         underTest.insertAtIndex(underTest.getSize() + 1, newSong);
         underTest.viewAll();
         Song tailSong = underTest.viewTail();
-        assertThat(tailSong).isEqualToComparingFieldByField(newSong);
+        assertThat(tailSong).usingRecursiveComparison().isEqualTo(newSong);
     }
 
     @Test
@@ -123,7 +122,7 @@ public class LinkedListTest {
         Song indexSong = null;
         Node<Song> node = underTest.searchNode(index);
         if(node != null) indexSong = node.getData();
-        assertThat(indexSong).isNotNull().isEqualToComparingFieldByField(newSong);
+        assertThat(indexSong).isNotNull().usingRecursiveComparison().isEqualTo(node.getData());
     }
 
     @Test
@@ -141,7 +140,7 @@ public class LinkedListTest {
         Song headSong = underTest.removeHead();
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
-        assertThat(headSong).isEqualToComparingFieldByField(firstSong);
+        assertThat(headSong).usingRecursiveComparison().isEqualTo(firstSong);
     }
 
     @Test
@@ -153,7 +152,7 @@ public class LinkedListTest {
         Song headSong = underTest.removeHead();
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
-        assertThat(headSong).isEqualToComparingFieldByField(firstSong);
+        assertThat(headSong).usingRecursiveComparison().isEqualTo(firstSong);
     }
 
     @Test
@@ -213,7 +212,7 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = listOfSongs().size() - 1;
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index+1);
+        Song removedSong = underTest.removeAtIndex(index);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
@@ -226,7 +225,7 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = new Random().nextInt(0, listOfSongs().size() - 1);
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index + 1);
+        Song removedSong = underTest.removeAtIndex(index);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
@@ -239,7 +238,7 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = 3;
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index + 1);
+        Song removedSong = underTest.removeAtIndex(index);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
