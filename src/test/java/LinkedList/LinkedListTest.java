@@ -212,7 +212,7 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = listOfSongs().size() - 1;
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index);
+        Song removedSong = underTest.removeAtIndex(index + 1);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
@@ -225,7 +225,7 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = new Random().nextInt(0, listOfSongs().size() - 1);
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index);
+        Song removedSong = underTest.removeAtIndex(index + 1);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
@@ -238,7 +238,7 @@ public class LinkedListTest {
         underTest.viewAll();
         int index = 3;
         Song compareSong = listOfSongs().get(index);
-        Song removedSong = underTest.removeAtIndex(index);
+        Song removedSong = underTest.removeAtIndex(index + 1);
         System.out.println("AFTER:\n\n");
         underTest.viewAll();
         assertThat(removedSong).usingRecursiveComparison().isEqualTo(compareSong);
