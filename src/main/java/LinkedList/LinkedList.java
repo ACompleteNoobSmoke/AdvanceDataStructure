@@ -9,41 +9,35 @@ public class LinkedList<T>{
         size = 0;
     }
 
-    private boolean isEmpty(){
-        return head == null || size == 0;
-    }
+    private boolean isEmpty(){ return head == null || size == 0; }
 
-    private boolean isOutOfRange(int index){
-        return index <= 0 || index > size;
-    }
+    private boolean isObjectNull(Object data){ return data == null; }
 
-    private boolean isDataNull(T newData){
-        return newData == null;
-    }
+    private boolean isOutOfRange(int index){ return index <= 0 || index > size; }
 
     public void insertHead(T newData){
-        if(isDataNull(newData)) throw new IllegalArgumentException("Data Is Null");
+        if(isObjectNull(newData)) throw new IllegalArgumentException("Data Is Null");
         head = new Node<T>(newData, head);
         size++;
     }
 
     public void insertTail(T newData){
-        if(isDataNull(newData)) throw new IllegalArgumentException("Data Is Null");
-        if(isEmpty()){ insertHead(newData); return; }
-        if(size == 1) head.setNext(new Node<>(newData));
+        if(isObjectNull(newData)) throw new IllegalArgumentException("Data Is Null");
+        if(isEmpty()) { insertHead(newData); return; }
+        if(size == 1) head.setNext(new Node<>(newData, null));
         else{
             Node<T> current = head;
-            while(current.getNext() != null) current = current.getNext();
-            current.setNext(new Node<>(newData));
+            while(!isObjectNull(current.getNext())) current = current.getNext();
+            current.setNext(new Node<>(newData, null));
         }
         size++;
     }
 
     public void insertAtIndex(int index, T newData){
-        if(isDataNull(newData)) throw new IllegalArgumentException("Data Is Null");
-        if(isEmpty() || index > size + 1) return;
-        if(index == 1){ insertHead(newData); return; }
-        if(index == size + 1){ insertTail(newData); return; }
+        if(isObjectNull(newData)) throw new IllegalArgumentException("Data Is Null");
+        if(isEmpty() || index <= 0 || index > size + 1) return;
+        if(index == 1) { insertHead(newData); return; }
+        if(index == size + 1) { insertTail(newData); return; }
         Node<T> current = head;
         for(int i = 1; i < index - 1; i++) current = current.getNext();
         current.setNext(new Node<T>(newData, current.getNext()));
@@ -62,7 +56,7 @@ public class LinkedList<T>{
         if(isEmpty()) return null;
         if(size == 1) return removeHead();
         Node<T> current = head;
-        while (current.getNext().getNext() != null) current = current.getNext();
+        while(!isObjectNull(current.getNext().getNext())) current = current.getNext();
         T removedTailData = current.getNext().getData();
         current.setNext(null);
         size--;
@@ -83,17 +77,13 @@ public class LinkedList<T>{
         return removedData;
     }
 
-    public Node<T> searchNode(int index){
+    public T searchNode(int index){
         if(isEmpty() || isOutOfRange(index)) return null;
-        Node<T> found;
-        if(index == 1) found = head;
-        else if(index == 2) found = head.getNext();
-        else{
-            Node<T> current = head;
-            for(int i = 1; i < index; i++ ) current = current.getNext();
-            found = current;
-        }
-        return found;
+        if(index == 1) return viewHead();
+        if(index == size) return viewTail();
+        Node<T> current = head;
+        for(int i = 1; i < index; i++) current = current.getNext();
+        return current.getData();
     }
 
     public T viewHead(){
@@ -106,14 +96,14 @@ public class LinkedList<T>{
         if(size == 1) return viewHead();
         if(size == 2) return head.getNext().getData();
         Node<T> current = head;
-        while(current.getNext() != null) current = current.getNext();
+        while(!isObjectNull(current.getNext())) current = current.getNext();
         return current.getData();
     }
 
     public void viewAll(){
         if(isEmpty()) return;
         Node<T> current = head;
-        while(current.getNext() != null){
+        while(!isObjectNull(current.getNext())){
             System.out.println(current.getData());
             current = current.getNext();
         }
