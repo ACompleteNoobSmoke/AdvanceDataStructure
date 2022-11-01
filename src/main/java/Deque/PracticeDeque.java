@@ -1,13 +1,13 @@
 package Deque;
 
-public class PracticeQueue<T>{
+public class PracticeDeque<T>{
     private int front;
     private int rear;
     private int size;
     private int capacity;
     private T[] deque;
 
-    public PracticeQueue(int capacity){
+    public PracticeDeque(int capacity){
         size = 0;
         front = rear = -1;
         this.capacity = capacity;
@@ -22,30 +22,26 @@ public class PracticeQueue<T>{
         return (front == 0 && rear == capacity - 1) || (front == rear + 1);
     }
 
-    private boolean isFrontRearSameIndex(){ return front == rear; }
+    private boolean isFrontRearSameIndex() { return front == rear; }
 
     private void setFrontRearIndex(int index){ front = rear = index; }
 
-    public int getSize(){ return size; }
-
-    public int getCapacity(){ return capacity; }
-
-    public boolean insertFront(T frontData){
+    public boolean insertFront(T newData){
         if(isFull()) return false;
         if(isEmpty()) setFrontRearIndex(0);
         else if(front == 0) front = capacity - 1;
         else front--;
-        deque[front] = frontData;
+        deque[front] = newData;
         size++;
         return true;
     }
 
-    public boolean insertRear(T rearData){
+    public boolean insertRear(T newData){
         if(isFull()) return false;
         if(isEmpty()) setFrontRearIndex(0);
         else if(rear == capacity - 1) rear = 0;
         else rear++;
-        deque[rear] = rearData;
+        deque[rear] = newData;
         size++;
         return true;
     }
@@ -91,4 +87,6 @@ public class PracticeQueue<T>{
         }
         System.out.println(deque[rear]);
     }
+
+    public int getSize(){ return size; }
 }
