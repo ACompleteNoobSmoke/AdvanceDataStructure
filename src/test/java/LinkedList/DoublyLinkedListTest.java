@@ -119,10 +119,8 @@ public class DoublyLinkedListTest {
         Song newSong = new Song("Remind Me", "Röyksopp", "Electronic", 2001);
         int index = 3;
         underTest.insertAtIndex(index, newSong);
-        Song indexSong = null;
-        Node<Song> node = underTest.searchNode(index);
-        if(node != null) indexSong = node.getData();
-        assertThat(indexSong).isNotNull().usingRecursiveComparison().isEqualTo(node.getData());
+        Song indexSong = underTest.searchNode(index);
+        assertThat(indexSong).usingRecursiveComparison().isEqualTo(newSong);
     }
 
     @Test
