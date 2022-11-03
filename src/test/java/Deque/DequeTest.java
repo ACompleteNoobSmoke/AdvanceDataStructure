@@ -120,4 +120,29 @@ public class DequeTest {
         assertEquals(1, frontValue);
     }
 
+    @Test
+    public void testViewRear1(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        int rearValue = underTest.viewRear();
+        underTest.viewAll();
+        assertEquals(1, rearValue);
+    }
+
+    @Test
+    public void testViewRear2(){
+        for(int i = 1; i <= 5; i++) underTest.insertRear(i);
+        underTest.insertRear(6);
+        int rearValue = underTest.viewRear();
+        underTest.viewAll();
+        assertEquals(5, rearValue);
+    }
+
+    @Test
+    public void testViewRear3(){
+        for(int i = 1; i <= 5; i++) underTest.insertFront(i);
+        underTest.viewAll();
+        int rearValue = underTest.viewRear();
+        assertEquals(1, rearValue);
+    }
+
 }
