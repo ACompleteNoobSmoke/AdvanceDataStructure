@@ -11,11 +11,11 @@ public class DoublyLinkedList<T>{
 
     private boolean isEmpty(){ return head == null || size == 0; }
 
-    private boolean isObjectNull(Object object){ return object == null; }
+    private boolean isObjectNull(Object object) { return object == null; }
 
     private boolean isOutOfRange(int index){ return index <= 0 || index > size; }
 
-    private boolean isOutOfRange2(int index) { return index <= 0 || index > size + 1; }
+    private boolean isOutOfRange2(int index){ return index <= 0 || index > size + 1; }
 
     public void insertHead(T headData){
         if(isObjectNull(headData)) throw new IllegalArgumentException("Data Is Null");
@@ -25,10 +25,10 @@ public class DoublyLinkedList<T>{
 
     public void insertTail(T tailData){
         if(isObjectNull(tailData)) throw new IllegalArgumentException("Data Is Null");
-        if(isEmpty()) { insertHead(tailData); return; }
+        if(isEmpty()){ insertHead(tailData); return; }
         if(size == 1) head.setNext(new Node<T>(head, tailData));
         else{
-            Node<T> current = head;
+            Node<T> current = head.getNext();
             while(!isObjectNull(current.getNext())) current = current.getNext();
             current.setNext(new Node<T>(current, tailData));
         }
@@ -61,7 +61,7 @@ public class DoublyLinkedList<T>{
     public T removeTail(){
         if(isEmpty()) return null;
         if(size == 1) return removeHead();
-        Node<T> current = head;
+        Node<T> current = head.getNext();
         while(!isObjectNull(current.getNext())) current = current.getNext();
         current.getPrev().setNext(null);
         current.setPrev(null);
@@ -75,12 +75,11 @@ public class DoublyLinkedList<T>{
         if(index == size) return removeTail();
         Node<T> current = head;
         for(int i = 1; i < index; i++) current = current.getNext();
-        T removedData = current.getData();
         current.getPrev().setNext(current.getNext());
         current.getNext().setPrev(current.getPrev());
         current.setPrev(null); current.setNext(null);
         size--;
-        return removedData;
+        return current.getData();
     }
 
     public T searchNode(int index){
@@ -101,7 +100,7 @@ public class DoublyLinkedList<T>{
         if(isEmpty()) return null;
         if(size == 1) return viewHead();
         if(size == 2) return head.getNext().getData();
-        Node<T> current = head;
+        Node<T> current = head.getNext();
         while(!isObjectNull(current.getNext())) current = current.getNext();
         return current.getData();
     }

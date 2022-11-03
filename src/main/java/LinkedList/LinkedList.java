@@ -2,7 +2,7 @@ package LinkedList;
 
 public class LinkedList<T>{
     private Node<T> head;
-    private int size;
+    public int size;
 
     public LinkedList(){
         head = null;
@@ -11,33 +11,35 @@ public class LinkedList<T>{
 
     private boolean isEmpty(){ return head == null || size == 0; }
 
-    private boolean isObjectNull(Object data){ return data == null; }
+    private boolean isObjectNull(Object object){ return object == null; }
 
     private boolean isOutOfRange(int index){ return index <= 0 || index > size; }
 
-    public void insertHead(T newData){
-        if(isObjectNull(newData)) throw new IllegalArgumentException("Data Is Null");
-        head = new Node<T>(newData, head);
+    private boolean isOutOfRange2(int index){ return index <= 0 || index > size + 1; }
+
+    public void insertHead(T headData){
+        if(isObjectNull(headData)) throw new IllegalArgumentException("Data Is Null");
+        head = new Node<T>(headData, head);
         size++;
     }
 
-    public void insertTail(T newData){
-        if(isObjectNull(newData)) throw new IllegalArgumentException("Data Is Null");
-        if(isEmpty()) { insertHead(newData); return; }
-        if(size == 1) head.setNext(new Node<>(newData, null));
+    public void insertTail(T tailData){
+        if(isObjectNull(tailData)) throw new IllegalArgumentException("Data Is Null");
+        if(isEmpty()){ insertHead(tailData); return; }
+        if(size == 1) head.setNext(new Node<T>(tailData, null));
         else{
-            Node<T> current = head;
+            Node<T> current = head.getNext();
             while(!isObjectNull(current.getNext())) current = current.getNext();
-            current.setNext(new Node<>(newData, null));
+            current.setNext(new Node<T>(tailData, null));
         }
         size++;
     }
 
     public void insertAtIndex(int index, T newData){
         if(isObjectNull(newData)) throw new IllegalArgumentException("Data Is Null");
-        if(isEmpty() || index <= 0 || index > size + 1) return;
-        if(index == 1) { insertHead(newData); return; }
-        if(index == size + 1) { insertTail(newData); return; }
+        if(isEmpty() || isOutOfRange2(index)) return;
+        if(index == 1){ insertHead(newData); return; }
+        if(index == size + 1){ insertTail(newData); return; }
         Node<T> current = head;
         for(int i = 1; i < index - 1; i++) current = current.getNext();
         current.setNext(new Node<T>(newData, current.getNext()));
@@ -56,7 +58,7 @@ public class LinkedList<T>{
         if(isEmpty()) return null;
         if(size == 1) return removeHead();
         Node<T> current = head;
-        while(!isObjectNull(current.getNext().getNext())) current = current.getNext();
+        while (!isObjectNull(current.getNext().getNext())) current = current.getNext();
         T removedTailData = current.getNext().getData();
         current.setNext(null);
         size--;
@@ -77,6 +79,7 @@ public class LinkedList<T>{
         return removedData;
     }
 
+
     public T searchNode(int index){
         if(isEmpty() || isOutOfRange(index)) return null;
         if(index == 1) return viewHead();
@@ -95,7 +98,7 @@ public class LinkedList<T>{
         if(isEmpty()) return null;
         if(size == 1) return viewHead();
         if(size == 2) return head.getNext().getData();
-        Node<T> current = head;
+        Node<T> current = head.getNext();
         while(!isObjectNull(current.getNext())) current = current.getNext();
         return current.getData();
     }
