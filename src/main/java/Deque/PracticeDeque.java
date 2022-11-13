@@ -14,7 +14,7 @@ public class PracticeDeque<T>{
         deque = (T[]) new Object[capacity];
     }
 
-    private boolean isEmpty(){ return (front == -1 && rear == -1) && size == 0; }
+    private boolean isEmpty(){ return (front == -1 && rear == -1) && (size == 0); }
 
     private boolean isFull(){ return (front == 0 && rear == capacity - 1) || (front == rear + 1); }
 
@@ -22,50 +22,50 @@ public class PracticeDeque<T>{
 
     private void setFrontRearIndex(int index){ front = rear = index; }
 
-    private boolean isDataNull(T data) { return data == null; }
+    private boolean isNull(Object obj) { return obj == null; }
 
-    public boolean insertFront(T frontData){
-        if(isDataNull(frontData)) throw new IllegalArgumentException("Data Is Null");
+    public boolean insertFront(T newData){
+        if(isNull(newData)) throw new IllegalArgumentException("Data Is Empty!");
         if(isFull()) return false;
         if(isEmpty()) setFrontRearIndex(0);
         else if(front == 0) front = capacity - 1;
         else front--;
-        deque[front] = frontData;
+        deque[front] = newData;
         size++;
         return true;
     }
 
-    public boolean insertRear(T rearData){
-        if(isDataNull(rearData)) throw new IllegalArgumentException("Data Is Null");
+    public boolean insertRear(T newData){
+        if(isNull(newData)) throw new IllegalArgumentException("Data Is Empty!");
         if(isFull()) return false;
         if(isEmpty()) setFrontRearIndex(0);
         else if(rear == capacity - 1) rear = 0;
         else rear++;
-        deque[rear] = rearData;
+        deque[rear] = newData;
         size++;
         return true;
     }
 
     public T removeFront(){
         if(isEmpty()) return null;
-        T removeFrontData = deque[front];
+        T frontData = deque[front];
         deque[front] = null;
         if(isFrontRearSameIndex()) setFrontRearIndex(-1);
         else if(front == capacity - 1) front = 0;
         else front++;
         size--;
-        return removeFrontData;
+        return frontData;
     }
 
     public T removeRear(){
         if(isEmpty()) return null;
-        T removeRearData = deque[rear];
+        T rearData = deque[rear];
         deque[rear] = null;
         if(isFrontRearSameIndex()) setFrontRearIndex(-1);
         else if(rear == 0) rear = capacity - 1;
         else rear--;
         size--;
-        return removeRearData;
+        return rearData;
     }
 
     public T viewFront(){
