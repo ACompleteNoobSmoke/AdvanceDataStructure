@@ -20,7 +20,6 @@ public class MyPracticeHashMap<K, V>{
         if(isFull()) resize(table.length);
         int hashCode = key.hashCode() % table.length;
         SecondEntry<K, V> current = table[hashCode];
-        if(isNull(current)) return;
 
         if(isNull(current)) table[hashCode] = new SecondEntry<>(key, value);
         else{
