@@ -13,7 +13,7 @@ public class ExternalChainingHashMap<K, V> {
      *
      * DO NOT MODIFY THIS VARIABLE!
      */
-    public static final int INITIAL_CAPACITY = 13;
+    public static final int INITIAL_CAPACITY = 11;
 
     /*
      * The max load factor of the ExternalChainingHashMap.
@@ -72,7 +72,42 @@ public class ExternalChainingHashMap<K, V> {
      * @throws java.lang.IllegalArgumentException If key or value is null.
      */
     public V put(K key, V value) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if(key == null || value == null) throw new IllegalArgumentException("Data Is Null");
+        int hashIndex = key.hashCode() % table.length;
+        hashIndex = Math.abs(hashIndex);
+        ExternalChainingMapEntry<K, V> entry = table[hashIndex];
+        if(isGreaterThanLoadFactor()) resizeBackingTable(table.length);
+        V oldValue = getOldValueIfDuplicate(key, value, entry);
+        if(oldValue != null) return oldValue;
+        if(entry == null) { table[hashIndex] = new ExternalChainingMapEntry<>(key, value, entry); size++; return null; }
+        ExternalChainingMapEntry<K, V> newEntry = new ExternalChainingMapEntry<>(key, value, entry);
+        table[hashIndex] = newEntry;
+        size++;
+        return null;
+    }
+
+    private boolean isGreaterThanLoadFactor(){
+        double checkLF = (double)(size + 1) / table.length;
+        String stringLF = checkLF + "";
+        if(stringLF.length() >= 4){
+            stringLF = stringLF.substring(0, 4);
+            checkLF = Double.parseDouble(stringLF);
+        }
+        return checkLF > MAX_LOAD_FACTOR;
+    }
+
+    private V getOldValueIfDuplicate(K key, V value, ExternalChainingMapEntry<K, V> map){
+        if(map != null){
+            while(map != null){
+                if(map.getKey().equals(key)){
+                    V oldValue = map.getValue();
+                    map.setValue(value);
+                    return oldValue;
+                }
+                map = map.getNext();
+            }
+        }
+        return null;
     }
 
     /**
@@ -84,7 +119,34 @@ public class ExternalChainingHashMap<K, V> {
      * @throws java.util.NoSuchElementException   If the key is not in the map.
      */
     public V remove(K key) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if(key == null) throw new IllegalArgumentException("Key Is Null");
+        int hashIndex = key.hashCode() % table.length;
+        hashIndex = Math.abs(hashIndex);
+        ExternalChainingMapEntry<K, V> currentEntry = table[hashIndex];
+
+        if(currentEntry == null) throw new NoSuchElementException("No Such Element");
+
+        if(currentEntry.getKey().equals(key)){
+            table[hashIndex] = currentEntry.getNext();
+            currentEntry.setNext(null);
+            size--;
+            return currentEntry.getValue();
+        }
+
+        ExternalChainingMapEntry<K, V> previousEntry = currentEntry;
+        currentEntry = currentEntry.getNext();
+
+        while(currentEntry != null){
+            if(currentEntry.getKey().equals(key)){
+                previousEntry.setNext(currentEntry.getNext());
+                currentEntry.setNext(null);
+                size--;
+                return currentEntry.getValue();
+            }
+            previousEntry = currentEntry;
+            currentEntry = currentEntry.getNext();
+        }
+        throw new NoSuchElementException("No Such Element");
     }
 
     /**
@@ -102,10 +164,21 @@ public class ExternalChainingHashMap<K, V> {
      *
      * Hint: You cannot just simply copy the entries over to the new table.
      *
-     * @param Length The new length of the backing table.
+     * @param //Length The new length of the backing table.
      */
     private void resizeBackingTable(int length) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        int newLength = (2 * length) + 1;
+        ExternalChainingMapEntry<K, V>[] tempTable = table;
+        table = new ExternalChainingMapEntry[newLength];
+        for(int i = 0; i < length; i++){
+            if(tempTable[i] != null){
+                ExternalChainingMapEntry<K, V> oldEntry = tempTable[i];
+                while(oldEntry != null){
+                    put(oldEntry.getKey(), oldEntry.getValue());
+                    oldEntry = oldEntry.getNext();
+                }
+            }
+        }
     }
 
     /**
