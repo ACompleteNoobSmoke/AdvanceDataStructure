@@ -8,7 +8,7 @@ public class MyPracticeHashMap<K, V>{
     public MyPracticeHashMap(int capacity){
         this.currentSize = 0;
         this.INIT_CAP = capacity;
-        this.table = new SecondEntry[capacity];
+        this.table = new SecondEntry[INIT_CAP];
     }
 
     private boolean isFull(){ return currentSize == table.length; }
