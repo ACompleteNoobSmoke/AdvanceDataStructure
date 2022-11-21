@@ -24,4 +24,15 @@ public class SecondEntry<K, V>{
     public SecondEntry<K, V> getNextEntry(){ return nextEntry; }
 
     public void setNextEntry(SecondEntry<K, V> nextEntry){ this.nextEntry = nextEntry; }
+
+    @Override
+    public String toString() {
+        SecondEntry<K,V> temp = this;
+        StringBuilder sb = new StringBuilder();
+        while (temp != null) {
+            sb.append(temp.key + " -> " + temp.value + ",");
+            temp = temp.getNextEntry();
+        }
+        return sb.toString();
+    }
 }
