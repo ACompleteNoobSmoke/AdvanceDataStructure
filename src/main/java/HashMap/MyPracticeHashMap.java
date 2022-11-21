@@ -4,44 +4,43 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class MyPracticeHashMap<K, V>{
-    private final int INIT_CAP;
-    private int currentSize;
-    private SecondEntry[] table;
+    private int size;
+    private SecondEntry<K, V>[] table;
 
     public MyPracticeHashMap(int capacity){
-        this.currentSize = 0;
-        this.INIT_CAP = capacity;
-        this.table = new SecondEntry[INIT_CAP];
+        this.size = 0;
+        this.table = new SecondEntry[capacity];
     }
 
-    private boolean isFull(){ return currentSize == table.length; }
-
-    private boolean isNull(Object... obj){ return Arrays.stream(obj).anyMatch(Objects::isNull); }
+    private boolean isEmpty(){ return size == 0; }
+    private boolean isFull(){ return size == table.length; }
+    private boolean isNull(Object... objs){ return Arrays.stream(objs).anyMatch(Objects::isNull); }
 
     public void put(K key, V value){
         if(isNull(key, value)) throw new IllegalArgumentException("Key Or Value Is Null");
         if(isFull()) resize(table.length);
         int hashIndex = key.hashCode() % table.length;
         if(hashIndex < 0) return;
-        SecondEntry<K, V> currentEntry = table[hashIndex];
+        SecondEntry<K, V> entry = table[hashIndex];
 
-        if(isNull(currentEntry)) table[hashIndex] = new SecondEntry<>(key, value);
+        if(isNull(entry)) table[hashIndex] = new SecondEntry<>(key, value);
         else{
-            while(!isNull(currentEntry.getNextEntry())){
-                if(currentEntry.getKey().equals(key)){ currentEntry.setValue(value); return; }
-                currentEntry = currentEntry.getNextEntry();
+            while(!isNull(entry.getNextEntry())){
+                if(entry.getKey().equals(key)) { entry.setValue(value); return; }
+                entry = entry.getNextEntry();
             }
-            if(currentEntry.getKey().equals(key)) { currentEntry.setValue(value); return; }
-            currentEntry.setNextEntry(new SecondEntry<>(key, value));
+            if(entry.getKey().equals(key)) { entry.setValue(value); return; }
+            entry.setNextEntry(new SecondEntry<>(key, value));
         }
-        currentSize++;
+        size++;
     }
 
     public V getValue(K key){
-        if(isNull(key)) throw new IllegalArgumentException("Key is Null");
+        if(isEmpty()) return null;
+        if(isNull(key)) throw new IllegalArgumentException("Key Is Null");
         int hashIndex = key.hashCode() % table.length;
         SecondEntry<K, V> searchEntry = table[hashIndex];
-        if(isNull(searchEntry)) return null;
+        //if(isNull(searchEntry)) return null;
 
         while(!isNull(searchEntry)){
             if(searchEntry.getKey().equals(key)) return searchEntry.getValue();
@@ -52,6 +51,7 @@ public class MyPracticeHashMap<K, V>{
     }
 
     public SecondEntry<K, V> remove(K key){
+        if(isEmpty()) return null;
         if(isNull(key)) throw new IllegalArgumentException("Key Is Null");
         int hashIndex = key.hashCode() % table.length;
         SecondEntry<K, V> removeEntry = table[hashIndex];
@@ -60,7 +60,7 @@ public class MyPracticeHashMap<K, V>{
         if(removeEntry.getKey().equals(key)){
             table[hashIndex] = removeEntry.getNextEntry();
             removeEntry.setNextEntry(null);
-            currentSize--;
+            size--;
             return removeEntry;
         }
 
@@ -70,11 +70,10 @@ public class MyPracticeHashMap<K, V>{
         while(!isNull(removeEntry)){
             if(removeEntry.getKey().equals(key)){
                 previousEntry.setNextEntry(removeEntry.getNextEntry());
-                removeEntry.setNextEntry(null);
-                currentSize--;
+                removeEntry.setValue(null);
+                size--;
                 return removeEntry;
             }
-
             previousEntry = removeEntry;
             removeEntry = removeEntry.getNextEntry();
         }
@@ -82,19 +81,18 @@ public class MyPracticeHashMap<K, V>{
     }
 
     private void resize(int length){
-        if(length <= 0) return;
         int newLength = 2 * length + 1;
-        SecondEntry<K, V>[] tempTable = table;
+        SecondEntry<K, V>[] oldTable = table;
         table = new SecondEntry[newLength];
-        currentSize = 0;
+        size = 0;
 
-        for(SecondEntry<K, V> entry: tempTable){
-            while (!isNull(entry)) {
+        for(SecondEntry<K, V> entry: oldTable)
+            while(!isNull(entry)){
                 put(entry.getKey(), entry.getValue());
                 entry = entry.getNextEntry();
             }
-        }
     }
 
     public SecondEntry<K, V>[] getTable(){ return table; }
+
 }
