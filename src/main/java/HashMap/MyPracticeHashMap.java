@@ -17,6 +17,7 @@ public class MyPracticeHashMap<K, V>{
     private boolean isEmpty(){ return size == 0; }
     private boolean isFull(){ return size == table.length; }
     private boolean isNull(Object... objs){ return Arrays.stream(objs).anyMatch(Objects::isNull); }
+    private boolean isKeyEqual(K key, K objectKey){ return objectKey.equals(key); }
 
     private void resize(int length){
         int newLength = 2 * length + 1;
@@ -33,7 +34,7 @@ public class MyPracticeHashMap<K, V>{
     }
 
     public void put(K key, V value){
-        if(isNull(key, value)) throw new IllegalArgumentException("Key or Value Is Null");
+        if(isNull(key, value)) throw new IllegalArgumentException("Key Or Value Is Null");
         if(isFull()) resize(table.length);
         int hashIndex = key.hashCode() % table.length;
         if(hashIndex < 0) return;
@@ -42,10 +43,10 @@ public class MyPracticeHashMap<K, V>{
         if(isNull(entry)) table[hashIndex] = new SecondEntry<>(key, value);
         else{
             while(!isNull(entry.getNextEntry())){
-                if(entry.getKey().equals(key)) { entry.setValue(value); return; }
+                if(isKeyEqual(key, entry.getKey())) { entry.setValue(value); return; }
                 entry = entry.getNextEntry();
             }
-            if(entry.getKey().equals(key)){ entry.setValue(value); return; }
+            if(isKeyEqual(key, entry.getKey())) { entry.setValue(value); return; }
             entry.setNextEntry(new SecondEntry<>(key, value));
         }
         size++;
@@ -58,7 +59,7 @@ public class MyPracticeHashMap<K, V>{
         SecondEntry<K, V> searchEntry = table[hashIndex];
 
         while(!isNull(searchEntry)){
-            if(searchEntry.getKey().equals(key)) return searchEntry.getValue();
+            if(isKeyEqual(key, searchEntry.getKey())) return searchEntry.getValue();
             searchEntry = searchEntry.getNextEntry();
         }
 
@@ -72,7 +73,7 @@ public class MyPracticeHashMap<K, V>{
         SecondEntry<K, V> removeEntry = table[hashIndex];
         if(isNull(removeEntry)) return null;
 
-        if(removeEntry.getKey().equals(key)){
+        if(isKeyEqual(key, removeEntry.getKey())){
             table[hashIndex] = removeEntry.getNextEntry();
             removeEntry.setNextEntry(null);
             size--;
@@ -83,14 +84,14 @@ public class MyPracticeHashMap<K, V>{
         removeEntry = removeEntry.getNextEntry();
 
         while(!isNull(removeEntry)){
-            if(removeEntry.getKey().equals(key)){
+            if(isKeyEqual(key, removeEntry.getKey())){
                 previousEntry.setNextEntry(removeEntry.getNextEntry());
                 removeEntry.setNextEntry(null);
                 size--;
                 return removeEntry;
             }
             previousEntry = removeEntry;
-            removeEntry = previousEntry.getNextEntry();
+            removeEntry = removeEntry.getNextEntry();
         }
 
         return null;
