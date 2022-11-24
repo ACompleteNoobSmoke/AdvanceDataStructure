@@ -5,17 +5,17 @@ import java.util.Objects;
 
 public class MyPracticeHashMap<K, V>{
     private int size;
-    private SecondEntry<K,V>[] table;
+    private SecondEntry<K, V>[] table;
 
-    public MyPracticeHashMap(int capacity) {
+    public MyPracticeHashMap(int capacity){
         this.size = 0;
         this.table = new SecondEntry[capacity];
     }
 
     private boolean isEmpty(){ return size == 0; }
     private boolean isFull(){ return size == table.length; }
-    private boolean isNull(Object... objects){ return Arrays.stream(objects).anyMatch(Objects::isNull); }
-    private boolean isKeyEquals(K objectKey, K newKey) { return objectKey.equals(newKey); }
+    private boolean isNull(Object... obj){ return Arrays.stream(obj).anyMatch(Objects::isNull); }
+    private boolean isKeyEquals(K hashKey, K passedKey){ return hashKey.equals(passedKey); }
 
     private void resize(int length){
         int newLength = 2 * length + 1;
@@ -23,16 +23,15 @@ public class MyPracticeHashMap<K, V>{
         table = new SecondEntry[newLength];
         size = 0;
 
-        for(SecondEntry<K, V> entry: oldTable){
+        for(SecondEntry<K, V> entry: oldTable)
             while(!isNull(entry)){
                 put(entry.getKey(), entry.getValue());
                 entry = entry.getNextEntry();
             }
-        }
     }
 
     public void put(K key, V value){
-        if(isNull(key, value)) throw new IllegalArgumentException("Key or Data Is Null");
+        if(isNull(key, value)) throw new IllegalArgumentException("Key or Value Is Null");
         if(isFull()) resize(table.length);
         int hashIndex = key.hashCode() % table.length;
         if(hashIndex < 0) return;
@@ -60,6 +59,7 @@ public class MyPracticeHashMap<K, V>{
             if(isKeyEquals(searchEntry.getKey(), key)) return searchEntry.getValue();
             searchEntry = searchEntry.getNextEntry();
         }
+
         return null;
     }
 
@@ -90,6 +90,7 @@ public class MyPracticeHashMap<K, V>{
             previousEntry = removeEntry;
             removeEntry = removeEntry.getNextEntry();
         }
+
         return null;
     }
 
