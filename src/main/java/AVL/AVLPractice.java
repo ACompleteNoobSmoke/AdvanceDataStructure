@@ -14,6 +14,86 @@ public class AVLPractice<T extends Comparable<T>>{
         return (!isNull(focusNode)) ? height(focusNode.getLeftSide()) - height(focusNode.getRightSide()) : 0;
     }
 
+    public T getMin(){
+        if(isEmpty()) return null;
+        return getMin(root);
+    }
+
+    private T getMin(AVLNode<T> focusNode){
+        if(!isNull(focusNode.getLeftSide()))
+            return getMin(focusNode.getLeftSide());
+        return focusNode.getData();
+    }
+
+    public T getMax(){
+        if(isEmpty()) return null;
+        return getMax(root);
+    }
+
+    private T getMax(AVLNode<T> focusNode){
+        if(!isNull(focusNode.getRightSide()))
+            return getMax(focusNode.getRightSide());
+        return focusNode.getData();
+    }
+
+    public void insert(T newData){
+        if(isNull(newData)) throw new IllegalArgumentException("Data Is Null");
+        if(isEmpty()) root = new AVLNode<>(newData);
+        else addToTree(newData, root);
+    }
+
+    private void addToTree(T newData, AVLNode<T> focusNode){
+        if(isLeftSide(focusNode.getData(), newData)){
+            if(isNull(focusNode.getLeftSide())) focusNode.setLeftSide(new AVLNode<>(newData));
+            else addToTree(newData, focusNode.getLeftSide());
+        }else if(isRightSide(focusNode.getData(), newData)){
+            if(isNull(focusNode.getRightSide())) focusNode.setRightSide(new AVLNode<>(newData));
+            else addToTree(newData, focusNode.getRightSide());
+        }
+        updateHeight(focusNode);
+        applyRotation(focusNode);
+    }
+
+    public T search(T id){
+        if(isNull(id)) throw new IllegalArgumentException("ID Is Null");
+        if(isEmpty()) return null;
+        return retrieveFromTree(id, root);
+    }
+
+    private T retrieveFromTree(T id, AVLNode<T> searchNode){
+        while(!id.equals(searchNode.getData())){
+            if(isLeftSide(searchNode.getData(), id)) searchNode = searchNode.getLeftSide();
+            else if(isRightSide(searchNode.getData(), id)) searchNode = searchNode.getRightSide();
+            if(isNull(searchNode)) return null;
+        }
+        return searchNode.getData();
+    }
+
+    public void remove(T id){
+        if(isNull(id)) throw new IllegalArgumentException("ID Is Null");
+        if(isEmpty()) return;
+        root = deleteFromTree(id, root);
+    }
+
+    private AVLNode<T> deleteFromTree(T id, AVLNode<T> focusNode){
+        if(isLeftSide(focusNode.getData(), id))
+            focusNode.setLeftSide(deleteFromTree(id, focusNode.getLeftSide()));
+        else if(isRightSide(focusNode.getData(), id))
+            focusNode.setRightSide(deleteFromTree(id, focusNode.getRightSide()));
+        else{
+            if(isNull(focusNode.getLeftSide())) return focusNode.getRightSide();
+            if(isNull(focusNode.getRightSide())) return focusNode.getLeftSide();
+
+            focusNode.setData(getMax(focusNode.getLeftSide()));
+            focusNode.setLeftSide(deleteFromTree(focusNode.getData(), focusNode.getLeftSide()));
+        }
+        updateHeight(focusNode);
+        applyRotation(focusNode);
+        return focusNode;
+    }
+
+
+
     public void preOrderTraversal(AVLNode<T> focusNode){
         if(!isNull(focusNode)){
             System.out.println(focusNode.getData());
