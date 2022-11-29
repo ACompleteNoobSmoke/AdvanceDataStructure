@@ -3,7 +3,7 @@ package AVL;
 public class AVLNode<T extends Comparable<T>> {
 
     private T data;
-    private int height = -1;
+    private int height = 1;
     private AVLNode<T> leftSide;
     private AVLNode<T> rightSide;
 
