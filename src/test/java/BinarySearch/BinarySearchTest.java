@@ -25,4 +25,11 @@ public class BinarySearchTest {
         Integer result = (Integer) underTest.searchData(target);
         assertEquals(target, result);
     }
+
+    @Test
+    public void testSearchNull(){
+        Integer target = 100;
+        Integer result = (Integer) underTest.searchData(target);
+        assertNull(result);
+    }
 }
