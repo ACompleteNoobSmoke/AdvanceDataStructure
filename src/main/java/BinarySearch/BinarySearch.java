@@ -1,35 +1,49 @@
 package BinarySearch;
 
 public class BinarySearch<T extends Comparable<T>>{
-    T[] array;
-    int size;
+    private T[] dataArray;
+    private int size;
 
     public BinarySearch(int capacity){
-        this.array = (T[]) new Object[capacity];
         this.size = 0;
+        this.dataArray = (T[]) new Comparable[capacity];
     }
 
     private boolean isEmpty(){ return size == 0; }
-    private boolean isFull(){ return size == array.length; }
+    private boolean isFull(){ return size == dataArray.length; }
+    private boolean isNull(Object obj){ return obj == null; }
 
     public void insertData(T newData){
+        if(isNull(newData)) throw new IllegalArgumentException("Data Is Null");
         if(isFull()) return;
-        array[size++] = newData;
+        dataArray[size++] = newData;
     }
 
     public T searchData(T searchData){
+        if(isNull(searchData)) throw new IllegalArgumentException("Data Is Null");
         if(isEmpty()) return null;
         int startIndex = 0;
-        int endIndex = array.length - 1;
-        return binarySearch(startIndex, endIndex, 0, searchData);
+        int endIndex = dataArray.length - 1;
+        return binarySearch(startIndex, endIndex, searchData);
     }
 
-    private T binarySearch(int startIndex, int endIndex, int midIndex, T searchData){
+    private T binarySearch(int startIndex, int endIndex, T target){
+        printArray(startIndex, endIndex);
         if(startIndex > endIndex) return null;
-        midIndex = Math.floorDiv((startIndex + endIndex), 2);
-        if(array[midIndex].equals(searchData)) return array[midIndex];
-        if(array[midIndex].compareTo(searchData) > 0) endIndex = midIndex - 1;
-        else if(array[midIndex].compareTo(searchData) < 0) startIndex = midIndex + 1;
-        return binarySearch(startIndex, endIndex, midIndex, searchData);
+        int midIndex = Math.floorDiv((startIndex + endIndex), 2);
+        if(dataArray[midIndex].equals(target)) return dataArray[midIndex];
+        if(dataArray[midIndex].compareTo(target) > 0) endIndex = midIndex - 1;
+        else if(dataArray[midIndex].compareTo(target) < 0) startIndex = midIndex + 1;
+        return binarySearch(startIndex, endIndex, target);
     }
+
+    private void printArray(int startIndex, int endIndex){
+        if(isEmpty()) return;
+        System.out.print("Current Array: [ ");
+        for(int i = startIndex; i <= endIndex; i++)
+            System.out.print(dataArray[i] + " ");
+        System.out.println("]\n");
+    }
+
+
 }
