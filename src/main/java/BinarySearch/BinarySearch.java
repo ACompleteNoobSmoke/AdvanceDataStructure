@@ -19,6 +19,23 @@ public class BinarySearch<T extends Comparable<T>>{
         dataArray[size++] = newData;
     }
 
+    public T searchData(T data){
+        if(isNull(data)) throw new IllegalArgumentException("Data Is Null");
+        if(isEmpty()) return null;
+        int startIndex = 0, endIndex = dataArray.length - 1;
+        return binarySearch(startIndex, endIndex, data);
+    }
+
+    private T binarySearch(int startIndex, int endIndex, T data){
+        printArray(startIndex, endIndex);
+        if(startIndex > endIndex) return null;
+        int midIndex = Math.floorDiv((startIndex + endIndex), 2);
+        if(dataArray[midIndex].equals(data)) return dataArray[midIndex];
+        if(dataArray[midIndex].compareTo(data) > 0) endIndex = midIndex - 1;
+        else if(dataArray[midIndex].compareTo(data) < 0) startIndex = midIndex + 1;
+        return binarySearch(startIndex, endIndex, data);
+    }
+
     private void printArray(int startIndex, int endIndex){
         if(isEmpty()) return;
         System.out.print("Current Array Iteration: [");
