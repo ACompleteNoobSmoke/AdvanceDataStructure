@@ -22,9 +22,11 @@ public class BubbleSort<T extends Comparable<T>> {
     public void sort(){
         if(size == 0) return;
         for(int i = 0; i < array.length-1; i++){
-            for(int j = i ; j < array.length; j++){
-                if(array[i].compareTo(array[j]) > 0) swap(i, j);
+            boolean didSwap = false;
+            for(int j = 0 ; j < array.length - i - 1; j++){
+                if(array[j].compareTo(array[j + 1]) > 0){ swap(j, j + 1); didSwap = true; }
             }
+            if(!didSwap) break;
         }
     }
 
