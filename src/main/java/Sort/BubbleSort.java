@@ -1,45 +1,49 @@
 package Sort;
 
-import java.util.Arrays;
-
-public class BubbleSort<T extends Comparable<T>> {
-    private T[] array;
+public class BubbleSort<T extends Comparable<T>>{
     private int capacity;
     private int size;
+    private T[] dataArray;
 
     public BubbleSort(int capacity){
+        this.size = 0;
         this.capacity = capacity;
-        array = (T[]) new Comparable[capacity];
-        size = 0;
+        this.dataArray = (T[]) new Comparable[capacity];
     }
 
     public void insert(T newData){
         if(newData == null) throw new IllegalArgumentException("Data Is Null");
-        if(size == array.length) return;
-        array[size++] = newData;
+        if(size == capacity) return;
+        dataArray[size++] = newData;
     }
 
     public void sort(){
         if(size == 0) return;
-        for(int i = 0; i < array.length-1; i++){
-            boolean didSwap = false;
-            for(int j = 0 ; j < array.length - i - 1; j++){
-                if(array[j].compareTo(array[j + 1]) > 0){ swap(j, j + 1); didSwap = true; }
+        for(int i = 0; i < size - 1; i++){
+            boolean switched = false;
+            for(int j = 0; j < size - i - 1; j++){
+                if(dataArray[j].compareTo(dataArray[j + 1]) > 0){
+                    swap(j, j+1);
+                    switched = true;
+                }
             }
-            if(!didSwap) break;
+            if(!switched) break;
         }
     }
 
-    private void swap(int index1, int index2 ){
-        T temp = array[index1];
-        array[index1] = array[index2];
-        array[index2] = temp;
+    private void swap(int firstIndex, int secondIndex){
+        T temp = dataArray[firstIndex];
+        dataArray[firstIndex] = dataArray[secondIndex];
+        dataArray[secondIndex] = temp;
     }
 
     public void printArray(){
         if(size == 0) return;
-        Arrays.stream(array).forEach(c -> System.out.print(c + " "));
+        for(int i = 0; i < size; i++)
+            System.out.print(dataArray[i] + " ");
     }
 
     public int getCapacity(){ return capacity; }
+
+    public int getSize(){ return size; }
 }
