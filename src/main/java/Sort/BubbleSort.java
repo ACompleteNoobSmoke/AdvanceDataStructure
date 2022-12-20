@@ -1,49 +1,26 @@
 package Sort;
 
-public class BubbleSort<T extends Comparable<T>>{
-    private int capacity;
-    private int size;
-    private T[] dataArray;
+public class BubbleSort<T extends Comparable<T>> extends Sorting<T>{
 
-    public BubbleSort(int capacity){
-        this.size = 0;
-        this.capacity = capacity;
-        this.dataArray = (T[]) new Comparable[capacity];
+    public BubbleSort(int capacity) {
+        super(capacity);
     }
 
-    public void insert(T newData){
-        if(newData == null) throw new IllegalArgumentException("Data Is Null");
-        if(size == capacity) return;
-        dataArray[size++] = newData;
-    }
-
-    public void sort(){
-        if(size == 0) return;
-        for(int i = 0; i < size - 1; i++){
-            boolean switched = false;
-            for(int j = 0; j < size - i - 1; j++){
+    @Override
+    public void sort() {
+        for(int i = 0; i < dataArray.length - 1; i++){
+            boolean isSwapped = false;
+            for(int j = 0; j < dataArray.length - i - 1; j++){
                 if(dataArray[j].compareTo(dataArray[j + 1]) > 0){
                     swap(j, j+1);
-                    switched = true;
+                    isSwapped = true;
                 }
             }
-            if(!switched) break;
+            if(!isSwapped) break;
         }
     }
 
-    private void swap(int firstIndex, int secondIndex){
-        T temp = dataArray[firstIndex];
-        dataArray[firstIndex] = dataArray[secondIndex];
-        dataArray[secondIndex] = temp;
-    }
-
-    public void printArray(){
-        if(size == 0) return;
-        for(int i = 0; i < size; i++)
-            System.out.print(dataArray[i] + " ");
-    }
+    public int getSize(){ return size; }
 
     public int getCapacity(){ return capacity; }
-
-    public int getSize(){ return size; }
 }

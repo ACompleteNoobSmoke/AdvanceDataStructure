@@ -29,4 +29,10 @@ public abstract class Sorting<T extends Comparable<T>> implements SortingMethods
         dataArray[firstIndex] = dataArray[secondIndex];
         dataArray[secondIndex] = temp;
     }
+
+    protected void printArray(){
+        if(isEmpty()) return;
+        for(int i = 0; i < size; i++)
+            System.out.print(dataArray[i] + " ");
+    }
 }
