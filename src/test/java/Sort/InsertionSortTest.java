@@ -5,16 +5,16 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BubbleSortTest {
+public class InsertionSortTest {
 
-    private BubbleSort<Integer> underTest;
+    private InsertionSort<Integer> underTest;
 
     @BeforeEach
     public void setUp(){
         int cap = 15;
-        underTest = new BubbleSort<>(cap);
+        underTest = new InsertionSort<>(cap);
     }
 
     @Test
