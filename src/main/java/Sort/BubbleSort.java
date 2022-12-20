@@ -20,7 +20,4 @@ public class BubbleSort<T extends Comparable<T>> extends Sorting<T>{
         }
     }
 
-    public int getSize(){ return size; }
-
-    public int getCapacity(){ return capacity; }
 }

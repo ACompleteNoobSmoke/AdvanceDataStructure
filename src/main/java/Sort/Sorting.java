@@ -35,4 +35,8 @@ public abstract class Sorting<T extends Comparable<T>> implements SortingMethods
         for(int i = 0; i < size; i++)
             System.out.print(dataArray[i] + " ");
     }
+
+    public int getSize(){ return size; }
+
+    public int getCapacity(){ return capacity; }
 }
