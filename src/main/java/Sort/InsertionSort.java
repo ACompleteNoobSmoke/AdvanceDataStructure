@@ -1,7 +1,6 @@
 package Sort;
 
 public class InsertionSort<T extends Comparable<T>> extends Sorting<T>{
-
     public InsertionSort(int capacity){ super(capacity); }
 
     @Override
