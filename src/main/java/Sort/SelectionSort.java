@@ -1,7 +1,9 @@
 package Sort;
 
 public class SelectionSort<T extends Comparable<T>> extends Sorting<T>{
-    public SelectionSort(int capacity){ super(capacity); }
+    public SelectionSort(int capacity){
+        super(capacity);
+    }
 
     @Override
     public void sort(){
