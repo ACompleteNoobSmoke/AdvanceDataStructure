@@ -20,7 +20,7 @@ public class CocktailShakerSort<T extends Comparable<T>> extends Sorting<T>{
             isSwapped = false;
             for(int j = dataArray.length - 2; j >= 0; j--){
                 if(compareTo(dataArray[j], dataArray[j + 1])){
-                    swap(j, j+1);
+                    swap(j, j + 1);
                     isSwapped = true;
                 }
             }
