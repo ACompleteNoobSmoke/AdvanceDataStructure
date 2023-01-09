@@ -5,22 +5,19 @@ public class MergeSort<T extends Comparable<T>> extends Sorting<T> {
 
     @Override
     public void sort(){
-
+        mergeSort(dataArray);
     }
 
     private void mergeSort(T[] inputArray){
-        int inputLength = inputArray.length;
-        if(inputLength < 2) return;
+        int arrLen = inputArray.length;
+        if(arrLen < 2) return;
 
-        int midIndex = inputLength / 2;
+        int midIndex = arrLen / 2;
         T[] leftHalf = (T[]) new Comparable[midIndex];
-        T[] rightHalf = (T[]) new Comparable[inputLength - midIndex];
+        T[] rightHalf = (T[]) new Comparable[arrLen - midIndex];
 
-        for(int i = 0; i < midIndex; i++)
-            leftHalf[i] = inputArray[i];
-
-        for(int i = midIndex; i < inputLength; i++)
-            rightHalf[i - midIndex] = inputArray[i];
+        for(int i = 0; i < midIndex; i++) leftHalf[i] = inputArray[i];
+        for(int j = midIndex; j < arrLen; j++) rightHalf[j - midIndex] = inputArray[j];
 
         mergeSort(leftHalf);
         mergeSort(rightHalf);
@@ -35,22 +32,12 @@ public class MergeSort<T extends Comparable<T>> extends Sorting<T> {
         int i = 0, j = 0, k = 0;
 
         while(i < leftSize && j < rightSize){
-            if(leftHalf[i].compareTo(rightHalf[j]) <= 0){
-                inputArray[k] = leftHalf[i];
-                i++;
-            }else{
-                inputArray[k] = rightHalf[j];
-                j++;
-            }
+            if(leftHalf[i].compareTo(rightHalf[j]) <= 0) inputArray[k] = leftHalf[i++];
+            else inputArray[k] = rightHalf[j++];
             k++;
         }
 
-        while(i < leftSize){
-            inputArray[k++] = leftHalf[i++];
-        }
-
-        while(j < rightSize){
-            inputArray[k++] = rightHalf[j++];
-        }
+        while(i < leftSize) inputArray[k++] = leftHalf[i++];
+        while(j < rightSize) inputArray[k++] = rightHalf[j++];
     }
 }
