@@ -3,7 +3,7 @@ package Sort;
 public class CocktailShakerSort<T extends Comparable<T>> extends Sorting<T>{
     public CocktailShakerSort(int capacity){ super(capacity); }
 
-    private boolean compareTo(T data1, T data2){ return data1.compareTo(data2) >= 0; }
+    private boolean compareTo(T data1, T data2){ return data1.compareTo(data2) > 0; }
 
     @Override
     public void sort(){
