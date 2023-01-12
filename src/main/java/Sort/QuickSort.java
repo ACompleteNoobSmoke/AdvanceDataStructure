@@ -1,5 +1,7 @@
 package Sort;
 
+import java.util.Random;
+
 public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
     public QuickSort(int capacity){ super(capacity); }
 
@@ -10,8 +12,17 @@ public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
 
     private void quickSort(T[] inputArray, int lowIndex, int highIndex){
         if(lowIndex >= highIndex) return;
-        T pivot = inputArray[highIndex];
+        int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
+        T pivot = inputArray[pivotIndex];
+        swap(pivotIndex, highIndex);
 
+        int leftPoint = partition(inputArray, lowIndex, highIndex, pivot);
+
+        quickSort(inputArray, lowIndex, leftPoint - 1);
+        quickSort(inputArray, leftPoint + 1, highIndex);
+    }
+
+    private int partition(T[] inputArray, int lowIndex, int highIndex, T pivot) {
         int leftPoint = lowIndex;
         int rightPoint = highIndex;
 
@@ -21,7 +32,6 @@ public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
             swap(leftPoint, rightPoint);
         }
         swap(leftPoint, highIndex);
-        quickSort(inputArray, lowIndex, leftPoint - 1);
-        quickSort(inputArray, leftPoint + 1, highIndex);
+        return leftPoint;
     }
 }
