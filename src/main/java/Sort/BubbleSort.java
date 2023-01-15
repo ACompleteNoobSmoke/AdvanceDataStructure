@@ -5,10 +5,10 @@ public class BubbleSort<T extends Comparable<T>> extends Sorting<T>{
 
 //    @Override
 //    public void sort(){
-//        for(int i = 0; i < dataArray.length - 1; i++){
+//        for(int i = 0; i < dataArray.length - 1; i++) {
 //            boolean isSwapped = false;
 //            for(int j = 0; j < dataArray.length - i - 1; j++){
-//                if(dataArray[j].compareTo(dataArray[j + 1]) > 0){
+//                if(compareToHigher(dataArray[j],dataArray[j + 1])){
 //                    swap(j, j + 1);
 //                    isSwapped = true;
 //                }
@@ -24,7 +24,7 @@ public class BubbleSort<T extends Comparable<T>> extends Sorting<T>{
             int i = 0;
             int swappedIndex = 0;
             while(i < stopIndex){
-                if(dataArray[i].compareTo(dataArray[i + 1]) > 0){
+                if(compareToHigher(dataArray[i], dataArray[i + 1])){
                     swap(i, i + 1);
                     swappedIndex = i;
                 }
@@ -33,20 +33,4 @@ public class BubbleSort<T extends Comparable<T>> extends Sorting<T>{
             stopIndex = swappedIndex;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
