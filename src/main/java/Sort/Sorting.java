@@ -16,6 +16,9 @@ public abstract class Sorting<T extends Comparable<T>> implements SortingMethods
     protected boolean isEmpty(){ return size == 0; }
     protected boolean isNull(T data){ return data == null; }
 
+    protected boolean compareToHigher(T data1, T data2){ return data1.compareTo(data2) > 0; }
+    protected boolean compareToLower(T data1, T data2){ return data1.compareTo(data2) < 0; }
+
     @Override
     public void insert(T newData){
         if(isNull(newData)) throw new IllegalArgumentException("Data Is Null");

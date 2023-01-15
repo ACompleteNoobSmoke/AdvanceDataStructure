@@ -33,4 +33,20 @@ public class BubbleSort<T extends Comparable<T>> extends Sorting<T>{
             stopIndex = swappedIndex;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

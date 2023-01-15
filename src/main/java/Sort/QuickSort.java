@@ -34,4 +34,78 @@ public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
         swap(leftPoint, highIndex);
         return leftPoint;
     }
+
+    private void quickSortPractice(T[] inputArray, int lowIndex, int highIndex){
+        if(lowIndex >= highIndex) return;
+        int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
+        T pivot = inputArray[pivotIndex];
+        swap(pivotIndex, highIndex);
+
+        int leftPointer = partitionPractice(inputArray, lowIndex, highIndex, pivot);
+
+        quickSort(inputArray, lowIndex, leftPointer - 1);
+        quickSort(inputArray, leftPointer + 1, highIndex);
+    }
+
+    private int partitionPractice(T[] inputArray, int lowIndex, int highIndex, T pivot){
+        int leftPointer = lowIndex;
+        int rightPointer = highIndex;
+
+        while(leftPointer < rightPointer){
+            while(inputArray[leftPointer].compareTo(pivot) <= 0 && leftPointer < rightPointer) leftPointer++;
+            while(inputArray[rightPointer].compareTo(pivot) >= 0 && leftPointer < rightPointer) rightPointer--;
+            swap(leftPointer, rightPointer);
+        }
+
+        swap(leftPointer, highIndex);
+        return leftPointer;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void qSortPractice(T[] inputArray, int lowIndex, int highIndex){
+        if(lowIndex >= highIndex) return;
+        int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
+        T pivot = inputArray[pivotIndex];
+        swap(pivotIndex, highIndex);
+
+        int leftPointer = partiP(inputArray, lowIndex, highIndex, pivot);
+
+        qSortPractice(inputArray, lowIndex, leftPointer - 1);
+        qSortPractice(inputArray, leftPointer + 1, highIndex);
+    }
+
+    public int partiP(T[] inputArray, int lowIndex, int highIndex, T pivot){
+        int leftPointer = lowIndex;
+        int rightPointer = highIndex;
+
+        while(leftPointer < rightPointer){
+            while(inputArray[leftPointer].compareTo(pivot) <= 0 && leftPointer < rightPointer) leftPointer++;
+            while(inputArray[rightPointer].compareTo(pivot) >= 0 && leftPointer < rightPointer) rightPointer--;
+            swap(leftPointer, rightPointer);
+        }
+
+        swap(leftPointer, highIndex);
+        return leftPointer;
+    }
+
+
+
 }
