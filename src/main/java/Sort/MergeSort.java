@@ -26,9 +26,7 @@ public class MergeSort<T extends Comparable<T>> extends Sorting<T> {
     }
 
     private void merge(T[] inputArray, T[] leftHalf, T[] rightHalf){
-        int leftSize = leftHalf.length;
-        int rightSize = rightHalf.length;
-
+        int leftSize = leftHalf.length, rightSize = rightHalf.length;
         int l = 0, r = 0, m = 0;
 
         while(l < leftSize && r < rightSize){
@@ -40,21 +38,4 @@ public class MergeSort<T extends Comparable<T>> extends Sorting<T> {
         while(l < leftSize) inputArray[m++] = leftHalf[l++];
         while(r < rightSize) inputArray[m++] = rightHalf[r++];
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

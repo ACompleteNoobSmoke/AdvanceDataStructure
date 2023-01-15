@@ -16,40 +16,14 @@ public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
         T pivot = inputArray[pivotIndex];
         swap(pivotIndex, highIndex);
 
-        int leftPoint = partition(inputArray, lowIndex, highIndex, pivot);
-
-        quickSort(inputArray, lowIndex, leftPoint - 1);
-        quickSort(inputArray, leftPoint + 1, highIndex);
-    }
-
-    private int partition(T[] inputArray, int lowIndex, int highIndex, T pivot) {
-        int leftPoint = lowIndex;
-        int rightPoint = highIndex;
-
-        while(leftPoint < rightPoint){
-            while(inputArray[leftPoint].compareTo(pivot) <= 0 && leftPoint < rightPoint) leftPoint++;
-            while(inputArray[rightPoint].compareTo(pivot) >= 0 && leftPoint < rightPoint) rightPoint--;
-            swap(leftPoint, rightPoint);
-        }
-        swap(leftPoint, highIndex);
-        return leftPoint;
-    }
-
-    private void quickSortPractice(T[] inputArray, int lowIndex, int highIndex){
-        if(lowIndex >= highIndex) return;
-        int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
-        T pivot = inputArray[pivotIndex];
-        swap(pivotIndex, highIndex);
-
-        int leftPointer = partitionPractice(inputArray, lowIndex, highIndex, pivot);
+        int leftPointer = partition(inputArray, lowIndex, highIndex, pivot);
 
         quickSort(inputArray, lowIndex, leftPointer - 1);
         quickSort(inputArray, leftPointer + 1, highIndex);
     }
 
-    private int partitionPractice(T[] inputArray, int lowIndex, int highIndex, T pivot){
-        int leftPointer = lowIndex;
-        int rightPointer = highIndex;
+    private int partition(T[] inputArray, int lowIndex, int highIndex, T pivot){
+        int leftPointer = lowIndex, rightPointer = highIndex;
 
         while(leftPointer < rightPointer){
             while(inputArray[leftPointer].compareTo(pivot) <= 0 && leftPointer < rightPointer) leftPointer++;
@@ -80,31 +54,6 @@ public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
 
 
 
-    public void qSortPractice(T[] inputArray, int lowIndex, int highIndex){
-        if(lowIndex >= highIndex) return;
-        int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
-        T pivot = inputArray[pivotIndex];
-        swap(pivotIndex, highIndex);
-
-        int leftPointer = partiP(inputArray, lowIndex, highIndex, pivot);
-
-        qSortPractice(inputArray, lowIndex, leftPointer - 1);
-        qSortPractice(inputArray, leftPointer + 1, highIndex);
-    }
-
-    public int partiP(T[] inputArray, int lowIndex, int highIndex, T pivot){
-        int leftPointer = lowIndex;
-        int rightPointer = highIndex;
-
-        while(leftPointer < rightPointer){
-            while(inputArray[leftPointer].compareTo(pivot) <= 0 && leftPointer < rightPointer) leftPointer++;
-            while(inputArray[rightPointer].compareTo(pivot) >= 0 && leftPointer < rightPointer) rightPointer--;
-            swap(leftPointer, rightPointer);
-        }
-
-        swap(leftPointer, highIndex);
-        return leftPointer;
-    }
 
 
 
