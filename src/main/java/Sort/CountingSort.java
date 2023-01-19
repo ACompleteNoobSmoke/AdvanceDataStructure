@@ -30,17 +30,18 @@ public class CountingSort{
     private void countSort(int[] inputArray, int length){
         int min = getMin(inputArray, length);
         int max = getMax(inputArray, length);
+        int countLength = max - min + 1;
 
-        int[] countArray = new int[max - min + 1];
+        int[] countArray = new int[countLength];
         for(int value: inputArray) countArray[value - min]++;
 
         int arrayIndex = 0;
-        for(int i = 0; i < max - min + 1; i++)
+        for(int i = 0; i < countLength; i++){
             while(countArray[i] > 0){
-                inputArray[arrayIndex] = i + min;
+                inputArray[arrayIndex++] = i + min;
                 countArray[i]--;
-                arrayIndex++;
             }
+        }
     }
 
 
