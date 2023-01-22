@@ -10,7 +10,8 @@ public class CountingSort{
     }
 
     public void sort(){
-        countSort(array, capacity);
+        //countSort(array, capacity);
+        countSort2(array, capacity);
     }
 
     private int getMin(int[] inputArray, int length){
@@ -44,5 +45,23 @@ public class CountingSort{
         }
     }
 
+    private void countSort2(int[] inputArr, int length){
+       int min = getMin(inputArr, length);
+       int max = getMax(inputArr, length);
+       int[] countArray = new int[max - min + 1];
 
+       for(int input: inputArr) countArray[input - min]++;
+       for(int i = 1; i < countArray.length; i++) countArray[i] += countArray[i - 1];
+
+       int[] outputArr = new int[length];
+
+       for(int i = length - 1; i >= 0; i--){
+           int current = inputArr[i];
+           int positionInArray = countArray[current - min] - 1;
+           outputArr[positionInArray] = current;
+           countArray[current - min]--;
+       }
+
+       for(int i = 0; i < length; i++) inputArr[i] = outputArr[i];
+    }
 }
