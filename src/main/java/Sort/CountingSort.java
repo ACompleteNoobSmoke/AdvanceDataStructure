@@ -10,8 +10,8 @@ public class CountingSort{
     }
 
     public void sort(){
-        //countSort(array, capacity);
-        countSort2(array, capacity);
+        countSort(array, capacity);
+        //countSort2(array, capacity);
     }
 
     private int getMin(int[] inputArray, int length){
@@ -34,7 +34,7 @@ public class CountingSort{
         int countLength = max - min + 1;
 
         int[] countArray = new int[countLength];
-        for(int value: inputArray) countArray[value - min]++;
+        for(int input: inputArray) countArray[input - min]++;
 
         int arrayIndex = 0;
         for(int i = 0; i < countLength; i++){
@@ -45,23 +45,24 @@ public class CountingSort{
         }
     }
 
-    private void countSort2(int[] inputArr, int length){
-       int min = getMin(inputArr, length);
-       int max = getMax(inputArr, length);
-       int[] countArray = new int[max - min + 1];
+    private void countSort2(int[] inputArray, int length){
+        int min = getMin(inputArray, length);
+        int max = getMax(inputArray, length);
+        int countLength = max - min + 1;
 
-       for(int input: inputArr) countArray[input - min]++;
-       for(int i = 1; i < countArray.length; i++) countArray[i] += countArray[i - 1];
+        int[] countArray = new int[countLength];
+        for(int input: inputArray) countArray[input - min]++;
+        for(int i = 1; i < countLength; i++) countArray[i] += countArray[i - 1];
 
-       int[] outputArr = new int[length];
+        int[] outputArray = new int[length];
+        for(int i = length - 1; i >= 0; i--){
+            int current = inputArray[i];
+            int countArrayIndex = current - min;
+            int positionInArray = countArray[countArrayIndex] - 1;
+            outputArray[positionInArray] = current;
+            countArray[countArrayIndex]--;
+        }
 
-       for(int i = length - 1; i >= 0; i--){
-           int current = inputArr[i];
-           int positionInArray = countArray[current - min] - 1;
-           outputArr[positionInArray] = current;
-           countArray[current - min]--;
-       }
-
-       for(int i = 0; i < length; i++) inputArr[i] = outputArr[i];
+        for(int i = 0; i < length; i++) inputArray[i] = outputArray[i];
     }
 }
