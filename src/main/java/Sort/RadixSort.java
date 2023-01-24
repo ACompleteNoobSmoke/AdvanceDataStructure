@@ -18,19 +18,20 @@ public class RadixSort extends CountingSort{
         int len = 10;
         int[] countArray = new int[len];
 
-        for(int input: array) countArray[(input / exp) % len]++;
+        for(int value: array) countArray[(value / exp) % len]++;
         for(int i = 1; i < len; i++) countArray[i] += countArray[i - 1];
 
-        int[] outputArray = new int[capacity];
-        for(int i = capacity - 1; i >= 0; i--){
+        int arrayLen = array.length;
+        int[] outputArray = new int[arrayLen];
+        for(int i = arrayLen - 1; i >= 0; i--){
             int currentValue = array[i];
             int countArrayIndex = (currentValue / exp) % len;
-            int positionInArray = countArray[countArrayIndex] - 1;
-            outputArray[positionInArray] = currentValue;
+            int pointInArray = countArray[countArrayIndex] - 1;
+            outputArray[pointInArray] = currentValue;
             countArray[countArrayIndex]--;
         }
 
-        System.arraycopy(outputArray, 0, array, 0, capacity);
+        System.arraycopy(outputArray, 0, array, 0, arrayLen);
     }
 }
 
