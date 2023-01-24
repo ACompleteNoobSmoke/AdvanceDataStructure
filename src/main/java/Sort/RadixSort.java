@@ -1,28 +1,36 @@
 package Sort;
 
-public class RadixSort<T extends Comparable<T>> extends Sorting<T> {
-    public RadixSort(int capacity){
-        super(capacity);
-    }
+import java.util.Arrays;
 
-    public T getMax(){
-        T max = dataArray[0];
-        for(T value: dataArray)
-            if(value.compareTo(max) > 0)
-                max = value;
+public class RadixSort extends CountingSort{
 
-        return max;
-    }
-
-    public T getMin(){
-        T max = dataArray[0];
-        for(T value: dataArray)
-            if(value.compareTo(max) < 0)
-                max = value;
-
-        return max;
+    public RadixSort(int capacity, int[] array){
+        super(capacity, array);
     }
 
     @Override
-    public void sort(){}
+    public void sort(){
+        int max = Arrays.stream(array).max().orElse(Integer.MAX_VALUE);
+        for(int exp = 1; max / exp > 0; exp *= 10) countSort(exp);
+    }
+
+    private void countSort(int exp){
+        int len = 10;
+        int[] countArray = new int[len];
+
+        for(int input: array) countArray[(input / exp) % len]++;
+        for(int i = 1; i < len; i++) countArray[i] += countArray[i - 1];
+
+        int[] outputArray = new int[capacity];
+        for(int i = capacity - 1; i >= 0; i--){
+            int currentValue = array[i];
+            int countArrayIndex = (currentValue / exp) % len;
+            int positionInArray = countArray[countArrayIndex] - 1;
+            outputArray[positionInArray] = currentValue;
+            countArray[countArrayIndex]--;
+        }
+
+        System.arraycopy(outputArray, 0, array, 0, capacity);
+    }
 }
+
