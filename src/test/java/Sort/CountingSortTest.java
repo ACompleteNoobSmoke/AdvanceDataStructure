@@ -38,7 +38,7 @@ public class CountingSortTest {
         Arrays.stream(underTest.array).forEach(i -> System.out.print(i + ", "));
         underTest.sort();
         System.out.print("\nAfter: ");
-        Arrays.stream(oldArray).forEach(i -> System.out.print(i + ", "));
+        Arrays.stream(underTest.array).forEach(i -> System.out.print(i + ", "));
 
         //Assertions.assertArrayEquals(newArray, );
     }
