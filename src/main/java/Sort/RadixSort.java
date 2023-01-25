@@ -21,17 +21,17 @@ public class RadixSort extends CountingSort{
         for(int value: array) countArray[(value / exp) % len]++;
         for(int i = 1; i < len; i++) countArray[i] += countArray[i - 1];
 
-        int arrayLen = array.length;
-        int[] outputArray = new int[arrayLen];
-        for(int i = arrayLen - 1; i >= 0; i--){
+        int arrayLength = array.length;
+        int[] outputArray = new int[arrayLength];
+        for(int i = arrayLength - 1; i >= 0; i--){
             int currentValue = array[i];
             int countArrayIndex = (currentValue / exp) % len;
-            int pointInArray = countArray[countArrayIndex] - 1;
-            outputArray[pointInArray] = currentValue;
+            int positionInArray = countArray[countArrayIndex] - 1;
+            outputArray[positionInArray] = currentValue;
             countArray[countArrayIndex]--;
         }
 
-        System.arraycopy(outputArray, 0, array, 0, arrayLen);
+        System.arraycopy(outputArray, 0, array, 0, arrayLength);
     }
 }
 
