@@ -15,19 +15,19 @@ public class CountingSort{
         countSort(array, capacity);
     }
 
+    protected int getMin(int[] inputArray){
+        return Arrays.stream(inputArray).min().orElse(0);
+    }
+
+    protected int getMax(int[] inputArray){
+        return Arrays.stream(inputArray).max().orElse(Integer.MAX_VALUE);
+    }
+
     private int getCountLength(int min, int max){
         return (max - min) + 1;
     }
 
-    protected int getMin(int[] minArray){
-        return Arrays.stream(minArray).min().orElse(0);
-    }
-
-    protected int getMax(int[] maxArray){
-        return Arrays.stream(maxArray).max().orElse(Integer.MAX_VALUE);
-    }
-
-    private void countSort(int[] inputArray){
+    private void countSort(int inputArray[]){
         int min = getMin(inputArray);
         int max = getMax(inputArray);
         int countLength = getCountLength(min, max);
@@ -41,7 +41,6 @@ public class CountingSort{
                 inputArray[arrayIndex++] = i + min;
                 countArray[i]--;
             }
-
     }
 
     private void countSort(int[] inputArray, int length){
@@ -50,11 +49,11 @@ public class CountingSort{
         int countLength = getCountLength(min, max);
 
         int[] countArray = new int[countLength];
-        for(int input: inputArray) countArray[input - min]++;
-        for(int i = 1; i < countLength; i++) countArray[i] += countArray[i - 1];
+        for (int input: inputArray) countArray[input - min]++;
+        for (int i = 1; i < countLength; i++) countArray[i] += countArray[i - 1];
 
         int[] outputArray = new int[length];
-        for(int i = length - 1; i >= 0; i--){
+        for (int i = 0; i < length; i++){
             int currentValue = inputArray[i];
             int countArrayIndex = currentValue - min;
             int positionInArray = countArray[countArrayIndex] - 1;
@@ -64,4 +63,6 @@ public class CountingSort{
 
         System.arraycopy(outputArray, 0, inputArray, 0, length);
     }
+
+
 }
