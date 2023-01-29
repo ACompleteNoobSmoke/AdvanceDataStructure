@@ -22,7 +22,7 @@ public class QuickSort<T extends Comparable<T>> extends Sorting<T> {
         quickSort(inputArray, leftPointer + 1, highIndex);
     }
 
-    private int partition(T[] inputArray, int lowIndex, int highIndex, T pivot){
+    protected int partition(T[] inputArray, int lowIndex, int highIndex, T pivot){
         int leftPointer = lowIndex, rightPointer = highIndex;
 
         while(leftPointer < rightPointer){
