@@ -63,6 +63,4 @@ public class CountingSort{
 
         System.arraycopy(outputArray, 0, inputArray, 0, length);
     }
-
-
 }
