@@ -3,7 +3,7 @@ package Sort;
 import java.util.Arrays;
 import java.util.Random;
 
-public class QuickSelect<T extends Comparable<T>> extends Sorting<T>{
+public class QuickSelect<T extends Comparable<T>> extends QuickSort<T>{
   private T kthElement;
   private int kthIndex;
 
@@ -21,9 +21,9 @@ public class QuickSelect<T extends Comparable<T>> extends Sorting<T>{
 
   @Override
   public void sort(){
-    int high = dataArray.length - 1;
-    kthIndex = new Random().nextInt(0, high);
-    kthElement = quickSelect(dataArray, kthIndex, 0, high);
+    int arrayLength = dataArray.length - 1;
+    kthIndex = new Random().nextInt(0, arrayLength);
+    kthElement = quickSelect(dataArray, kthIndex, 0, arrayLength);
     Arrays.sort(dataArray);
   }
 
