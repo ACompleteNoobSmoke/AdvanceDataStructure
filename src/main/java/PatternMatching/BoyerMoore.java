@@ -8,6 +8,18 @@ public class BoyerMoore {
     private String text;
     private HashMap<Character, Integer> mismatchShiftTable;
 
+    public void setPattern(String pattern){
+        this.pattern = pattern;
+    }
+
+    public void setText(String text){
+        this.text = text;
+    }
+
+    public BoyerMoore(){
+        this("", "");
+    }
+
     public BoyerMoore(String pattern, String text){
         this.pattern = pattern;
         this.text = text;
@@ -24,18 +36,19 @@ public class BoyerMoore {
     }
 
     public boolean searchPattern(){
-        int lengthOfPattern = this.pattern.length();
-        int lengthOfText = this.text.length();
-        int numberOfSkips = 0;
+        precomputeShift();
+        int lengthOfPattern = pattern.length();
+        int lengthOfText = text.length();
+        int numberOfSkips;
 
         for (int i = 0; i <= lengthOfText - lengthOfPattern; i += numberOfSkips){
+            numberOfSkips = 0;
             for (int j = lengthOfPattern - 1; j >= 0; j--){
-                if(pattern.charAt(j) != text.charAt(i + j)){
-                    if (this.mismatchShiftTable.get(text.charAt(i + j)) != null){
-                        numberOfSkips = this.mismatchShiftTable.get(text.charAt(i + j));
-                    }else{
-                        numberOfSkips = lengthOfPattern;
-                    }
+                char currentTextChar = text.charAt(i + j);
+                char currentPatternChar = pattern.charAt(j);
+                if (currentPatternChar != currentTextChar){
+                    numberOfSkips = (mismatchShiftTable.get(currentTextChar) != null) ?
+                            mismatchShiftTable.get(currentTextChar) : lengthOfPattern;
                     break;
                 }
             }
