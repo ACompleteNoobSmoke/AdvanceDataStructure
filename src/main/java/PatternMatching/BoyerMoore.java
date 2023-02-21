@@ -26,29 +26,28 @@ public class BoyerMoore {
         mismatchShiftTable = new HashMap<>();
     }
 
-    private void precomputeShift(){
-        int lengthOfPattern = this.pattern.length();
-        for (int i = 0; i < lengthOfPattern; i++){
-            char currentCharacter = this.pattern.charAt(i);
-            int maxShift = Math.max(1, lengthOfPattern - i - 1);
-            this.mismatchShiftTable.put(currentCharacter, maxShift);
+    private void precomputeShift(int lengthOfPattern){
+        for (int index = 0; index < lengthOfPattern; index++){
+            char currentChar = pattern.charAt(index);
+            int maxShift = Math.max(1, lengthOfPattern - index - 1);
+            mismatchShiftTable.put(currentChar, maxShift);
         }
     }
 
     public boolean searchPattern(){
-        precomputeShift();
-        int lengthOfPattern = pattern.length();
         int lengthOfText = text.length();
+        int lengthOfPattern = pattern.length();
+        precomputeShift(lengthOfPattern);
         int numberOfSkips;
 
         for (int i = 0; i <= lengthOfText - lengthOfPattern; i += numberOfSkips){
             numberOfSkips = 0;
             for (int j = lengthOfPattern - 1; j >= 0; j--){
-                char currentTextChar = text.charAt(i + j);
-                char currentPatternChar = pattern.charAt(j);
-                if (currentPatternChar != currentTextChar){
-                    numberOfSkips = (mismatchShiftTable.get(currentTextChar) != null) ?
-                            mismatchShiftTable.get(currentTextChar) : lengthOfPattern;
+                char patternChar = pattern.charAt(j);
+                char textChar = text.charAt(i + j);
+                if (patternChar != textChar){
+                    Integer maxShift = mismatchShiftTable.get(textChar);
+                    numberOfSkips = (maxShift != null) ? maxShift : lengthOfPattern;
                     break;
                 }
             }
@@ -56,7 +55,6 @@ public class BoyerMoore {
         }
         return false;
     }
-
     public void printText(){
         System.out.println("Text: " + text);
     }
