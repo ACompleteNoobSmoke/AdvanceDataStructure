@@ -40,4 +40,24 @@ public class BoyerMooreTest {
 
         Assertions.assertFalse(result);
     }
+
+    @Test
+    public void testAlternateSearchPattern(){
+        String text = "Leaf Hurricane";
+        String pattern = "Hurri";
+
+        boolean result = underTest.searchPatternPractice(pattern, text);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testAlternateSearchPatternFalse(){
+        String text = "Jeff Hardy";
+        String pattern = "Matt";
+
+        boolean result = underTest.searchPatternPractice(pattern, text);
+
+        Assertions.assertFalse(result);
+    }
 }
