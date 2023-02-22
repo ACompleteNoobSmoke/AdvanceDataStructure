@@ -27,9 +27,9 @@ public class BoyerMoore {
     }
 
     private void precomputeShift(int lengthOfPattern){
-        for (int index = 0; index < lengthOfPattern; index++){
-            char currentChar = pattern.charAt(index);
-            int maxShift = Math.max(1, lengthOfPattern - index - 1);
+        for (int i = 0; i < lengthOfPattern; i++){
+            char currentChar = pattern.charAt(i);
+            int maxShift = Math.max(1, lengthOfPattern - i - 1);
             mismatchShiftTable.put(currentChar, maxShift);
         }
     }
@@ -55,6 +55,9 @@ public class BoyerMoore {
         }
         return false;
     }
+
+
+
     public void printText(){
         System.out.println("Text: " + text);
     }
