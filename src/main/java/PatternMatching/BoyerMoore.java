@@ -27,9 +27,9 @@ public class BoyerMoore {
     }
 
     private void precomputeShift(int lengthOfPattern){
-        for (int i = 0; i < lengthOfPattern; i++){
-            char currentChar = pattern.charAt(i);
-            int maxShift = Math.max(1, lengthOfPattern - i - 1);
+        for (int index = 0; index < lengthOfPattern; index++){
+            char currentChar = pattern.charAt(index);
+            int maxShift = Math.max(1, pattern.length() - index - 1);
             mismatchShiftTable.put(currentChar, maxShift);
         }
     }
@@ -40,7 +40,7 @@ public class BoyerMoore {
         precomputeShift(lengthOfPattern);
         int numberOfSkips;
 
-        for (int i = 0; i <= lengthOfText - lengthOfPattern; i += numberOfSkips){
+        for (int i = 0; i < lengthOfText - lengthOfPattern; i += numberOfSkips){
             numberOfSkips = 0;
             for (int j = lengthOfPattern - 1; j >= 0; j--){
                 char patternChar = pattern.charAt(j);
@@ -71,38 +71,6 @@ public class BoyerMoore {
             return;
         mismatchShiftTable.forEach((c, m) -> System.out.println("Character: " + c +
                 " Max Shift: " + m));
-    }
-
-    private HashMap<Character, Integer> getShiftTable(String currentPattern, int lengthOfPattern){
-        HashMap<Character, Integer> table = new HashMap<>();
-        for (int i = 0; i < lengthOfPattern; i++){
-            char currentChar = currentPattern.charAt(i);
-            int maxShift = Math.max(1, lengthOfPattern - i - 1);
-            table.put(currentChar, maxShift);
-        }
-        return table;
-    }
-
-    public boolean searchPatternPractice(String alternatePattern, String alternateText){
-        int lengthOfPattern = alternatePattern.length();
-        int lengthOfText = alternateText.length();
-        HashMap<Character, Integer> table = getShiftTable(alternatePattern, lengthOfPattern);
-
-        int numberOfSkips;
-        for (int i = 0; i < lengthOfText - lengthOfPattern; i += numberOfSkips){
-            numberOfSkips = 0;
-            for (int j = lengthOfPattern - 1; j >= 0; j--){
-                char patternChar = alternatePattern.charAt(j);
-                char textChar = alternateText.charAt(i + j);
-                if (patternChar != textChar){
-                    Integer maxShift = table.get(textChar);
-                    numberOfSkips = (maxShift != null) ? maxShift : lengthOfPattern;
-                    break;
-                }
-            }
-            if (numberOfSkips == 0) return true;
-        }
-        return false;
     }
 
 }
