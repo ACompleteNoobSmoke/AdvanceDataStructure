@@ -56,6 +56,39 @@ public class BoyerMoore {
         return false;
     }
 
+    private HashMap<Character, Integer> getShiftTable(String currentPattern, int lengthOfPattern){
+        HashMap<Character, Integer> shiftTable = new HashMap<>();
+        for (int index = 0; index < lengthOfPattern; index++){
+            char currentChar = currentPattern.charAt(index);
+            int maxShift = Math.max(1, lengthOfPattern - index - 1);
+            shiftTable.put(currentChar, maxShift);
+        }
+        return shiftTable;
+    }
+
+    public boolean searchPatternPractice(String practicePattern, String practiceText){
+        int lengthOfPattern = practicePattern.length();
+        int lengthOfText = practiceText.length();
+        HashMap<Character, Integer> table = getShiftTable(practicePattern, lengthOfPattern);
+        int numberOfSkips;
+
+        for (int i = 0; i < lengthOfText - lengthOfPattern; i += numberOfSkips){
+            numberOfSkips = 0;
+            for (int j = lengthOfPattern - 1; j >= 0; j--){
+                char patternChar = practicePattern.charAt(j);
+                char textChar = practiceText.charAt(i + j);
+                if (patternChar != textChar){
+                    Integer maxShift = table.get(textChar);
+                    numberOfSkips = (maxShift != null) ? maxShift : lengthOfPattern;
+                    break;
+                }
+            }
+            if (numberOfSkips == 0) return true;
+        }
+
+        return false;
+    }
+
 
 
     public void printText(){
