@@ -19,4 +19,24 @@ public class KMP {
 
         return values;
     }
+
+    public boolean searchPattern(String pattern, String text){
+        int[] subStringValues = getSubstringValues(pattern);
+        int lengthOfPattern = pattern.length();
+        int lengthOfText = text.length();
+        int textPointer = 0, patternPointer = 0;
+        int counter = 0;
+
+        while (textPointer < lengthOfText && patternPointer < lengthOfPattern){
+            char patternChar = pattern.charAt(patternPointer++);
+            char textChar = text.charAt(textPointer++);
+            if (patternChar != textChar) {
+                patternPointer = (patternPointer - 1 <= 0) ? 0 : subStringValues[patternPointer - 2];
+                counter = patternPointer;
+            } else counter++;
+
+            if (counter == lengthOfPattern) return true;
+        }
+        return false;
+    }
 }
