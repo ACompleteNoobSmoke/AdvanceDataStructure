@@ -1,5 +1,6 @@
 package PatternMatching;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class KMPTest {
     @Test
     public void testArray(){
         String pattern = "abcdabca";
-        int[] values = underTest.getValueArray(pattern);
+        int[] values = underTest.getSubstringValues(pattern);
         for (int i = 0; i < pattern.length(); i++){
             System.out.println("Character: " + pattern.charAt(i)
                     + " Value: " + values[i]);
@@ -26,7 +27,7 @@ public class KMPTest {
     @Test
     public void testArray2(){
         String pattern = "aabaabaaa";
-        int[] values = underTest.getValueArray(pattern);
+        int[] values = underTest.getSubstringValues(pattern);
         for (int i = 0; i < pattern.length(); i++){
             System.out.println("Character: " + pattern.charAt(i)
                     + " Value: " + values[i]);
@@ -36,10 +37,18 @@ public class KMPTest {
     @Test
     public void testArray3(){
         String pattern = "ababd";
-        int[] values = underTest.getValueArray(pattern);
+        int[] values = underTest.getSubstringValues(pattern);
         for (int i = 0; i < pattern.length(); i++){
             System.out.println("Character: " + pattern.charAt(i)
                     + " Value: " + values[i]);
         }
+    }
+
+    @Test
+    public void testSearchPattern(){
+        String patttern = "bob";
+        String text = "Spongebob Squarepants";
+        boolean result = underTest.searchPattern(patttern, text);
+        Assertions.assertTrue(result);
     }
 }
