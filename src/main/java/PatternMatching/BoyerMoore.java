@@ -26,10 +26,10 @@ public class BoyerMoore {
         mismatchShiftTable = new HashMap<>();
     }
 
-    private void precomputeShift(int lengthOfPattern){
-        for (int index = 0; index < lengthOfPattern; index++){
-            char currentChar = pattern.charAt(index);
-            int maxShift = Math.max(1, pattern.length() - index - 1);
+    private void precompute(int lengthOfPattern){
+        for (int i = 0; i < lengthOfPattern; i++){
+            char currentChar = pattern.charAt(i);
+            int maxShift = Math.max(1, lengthOfPattern - i - 1);
             mismatchShiftTable.put(currentChar, maxShift);
         }
     }
@@ -37,7 +37,7 @@ public class BoyerMoore {
     public boolean searchPattern(){
         int lengthOfText = text.length();
         int lengthOfPattern = pattern.length();
-        precomputeShift(lengthOfPattern);
+        precompute(lengthOfPattern);
         int numberOfSkips;
 
         for (int i = 0; i < lengthOfText - lengthOfPattern; i += numberOfSkips){
@@ -56,40 +56,37 @@ public class BoyerMoore {
         return false;
     }
 
-    private HashMap<Character, Integer> getShiftTable(String currentPattern, int lengthOfPattern){
+    private HashMap<Character, Integer> getShiftTable(String localPattern, int lengthOfPattern){
         HashMap<Character, Integer> shiftTable = new HashMap<>();
-        for (int index = 0; index < lengthOfPattern; index++){
-            char currentChar = currentPattern.charAt(index);
-            int maxShift = Math.max(1, lengthOfPattern - index - 1);
+        for (int i = 0; i < lengthOfPattern; i++){
+            char currentChar = localPattern.charAt(i);
+            int maxShift = Math.max(1, lengthOfPattern - i - 1);
             shiftTable.put(currentChar, maxShift);
         }
         return shiftTable;
     }
 
-    public boolean searchPatternPractice(String practicePattern, String practiceText){
-        int lengthOfPattern = practicePattern.length();
-        int lengthOfText = practiceText.length();
-        HashMap<Character, Integer> table = getShiftTable(practicePattern, lengthOfPattern);
+    public boolean searchPatternPractice(String localPattern, String localText){
+        int lengthOfText = localText.length();
+        int lengthOfPattern = localPattern.length();
+        HashMap<Character, Integer> shiftTable = getShiftTable(localPattern, lengthOfPattern);
         int numberOfSkips;
 
         for (int i = 0; i < lengthOfText - lengthOfPattern; i += numberOfSkips){
             numberOfSkips = 0;
             for (int j = lengthOfPattern - 1; j >= 0; j--){
-                char patternChar = practicePattern.charAt(j);
-                char textChar = practiceText.charAt(i + j);
+                char patternChar = localPattern.charAt(j);
+                char textChar = localText.charAt(i + j);
                 if (patternChar != textChar){
-                    Integer maxShift = table.get(textChar);
+                    Integer maxShift = shiftTable.get(textChar);
                     numberOfSkips = (maxShift != null) ? maxShift : lengthOfPattern;
                     break;
                 }
             }
             if (numberOfSkips == 0) return true;
         }
-
         return false;
     }
-
-
 
     public void printText(){
         System.out.println("Text: " + text);
