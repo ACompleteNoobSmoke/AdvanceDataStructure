@@ -51,4 +51,20 @@ public class KMPTest {
         boolean result = underTest.searchPattern(patttern, text);
         Assertions.assertTrue(result);
     }
+
+    @Test
+    public void testSearchPatternFalse(){
+        String patttern = "Patrick";
+        String text = "Spongebob Squarepants";
+        boolean result = underTest.searchPattern(patttern, text);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testSearchPatternTrue(){
+        String pattern = "abcdabca";
+        String text = "xdaskjabcdalfdsklkl1abcdabca23kljklds";
+        boolean result = underTest.searchPattern(pattern, text);
+        Assertions.assertTrue(result);
+    }
 }
