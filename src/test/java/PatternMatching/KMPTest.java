@@ -45,6 +45,26 @@ public class KMPTest {
     }
 
     @Test
+    public void testArray4(){
+        String pattern = "aabaaac";
+        int[] values = underTest.getSubstringValues(pattern);
+        for (int i = 0; i < pattern.length(); i++){
+            System.out.println("Character: " + pattern.charAt(i)
+                    + " Value: " + values[i]);
+        }
+    }
+
+    @Test
+    public void testArray5(){
+        String pattern = "abaabab";
+        int[] values = underTest.getSubstringValues(pattern);
+        for (int i = 0; i < pattern.length(); i++){
+            System.out.println("Character: " + pattern.charAt(i)
+                    + " Value: " + values[i]);
+        }
+    }
+
+    @Test
     public void testSearchPattern(){
         String patttern = "bob";
         String text = "Spongebob Squarepants";
@@ -66,5 +86,21 @@ public class KMPTest {
         String text = "xdaskjabcdalfdsklkl1abcdabca23kljklds";
         boolean result = underTest.searchPattern(pattern, text);
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testSearchPatternTrue2(){
+        String pattern = "abcdabca";
+        String text = "abcdabca";
+        boolean result = underTest.searchPattern(pattern, text);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testSearchPatternFalse2(){
+        String pattern = "abcdabcap";
+        String text = "abcdabca";
+        boolean result = underTest.searchPattern(pattern, text);
+        Assertions.assertFalse(result);
     }
 }
