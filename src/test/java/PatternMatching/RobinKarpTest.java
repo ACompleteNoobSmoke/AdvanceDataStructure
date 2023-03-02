@@ -19,4 +19,12 @@ public class RobinKarpTest {
         int result = 421;
         Assertions.assertEquals(result, underTest.getHashValue(pattern, base));
     }
+
+    @Test
+    public void testHashFunction2(){
+        String pattern = "DbA";
+        int base = 10;
+        int result = 421;
+        Assertions.assertEquals(result, underTest.getHashValue(pattern, base));
+    }
 }
