@@ -102,5 +102,4 @@ public class BoyerMoore {
         mismatchShiftTable.forEach((c, m) -> System.out.println("Character: " + c +
                 " Max Shift: " + m));
     }
-
 }
