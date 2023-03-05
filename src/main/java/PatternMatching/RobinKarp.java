@@ -3,10 +3,10 @@ package PatternMatching;
 public class RobinKarp {
     //TODO - Create Hash Function -- DONE
     //TODO - Get Hash Value For Pattern -- DONE
-    //TODO - Get Hash Value For Text
-    //TODO - Perform Rolling Hash Function/Comparison
-    //TODO - If Hash Values Are The Same Compare Characters
-    //TODO - If Hash Values Are Different Continue With Another Substring
+    //TODO - Get Hash Value For Text -- DONE
+    //TODO - Perform Rolling Hash Function/Comparison -- DONE
+    //TODO - If Hash Values Are The Same Compare Characters -- DONE
+    //TODO - If Hash Values Are Different Continue With Another Substring -- DONE
 
 
     public int powerOf(int base, int exp){
@@ -26,7 +26,6 @@ public class RobinKarp {
             int characterValue = currentChar - compareChar + 1;
             hashValues += characterValue * powerOf(base, --exp);
         }
-
         return hashValues;
     }
 
@@ -34,18 +33,13 @@ public class RobinKarp {
         int textLen = text.length();
         int patternLen = pattern.length();
         if (patternLen > textLen) return false;
-        if (patternLen == textLen) return text.equals(pattern);
         int base = 10;
         int patternValues = getHashValue(pattern, base);
-        int textPointer = 0;
 
-        while (textPointer <= textLen - patternLen){
+        for (int textPointer = 0; textPointer <= textLen - patternLen; textPointer++) {
             String currSub = text.substring(textPointer, textPointer + patternLen);
-            int hashValues = getHashValue(pattern, base);
-            if (hashValues == patternValues){
-                if (pattern.equals(currSub)) return true;
-            }
-            textPointer++;
+            int hashValues = getHashValue(currSub, base);
+            if (hashValues == patternValues && pattern.equals(currSub)) return true;
         }
         return false;
     }
