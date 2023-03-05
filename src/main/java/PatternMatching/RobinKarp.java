@@ -33,7 +33,7 @@ public class RobinKarp {
         int textLen = text.length();
         int patternLen = pattern.length();
         if (patternLen > textLen) return false;
-        int base = 10;
+        int base = 127;
         int patternValues = getHashValue(pattern, base);
 
         for (int textPointer = 0; textPointer <= textLen - patternLen; textPointer++) {
@@ -41,6 +41,25 @@ public class RobinKarp {
             int hashValues = getHashValue(currSub, base);
             if (hashValues == patternValues && pattern.equals(currSub)) return true;
         }
+        return false;
+    }
+
+
+
+    //**Cleaner Version Below**
+
+    public boolean search(String text, String pattern){
+        int textLen = text.length();
+        int patternLen = pattern.length();
+        if (patternLen > textLen) return false;
+        int patternHash = pattern.hashCode();
+
+        for (int textIndex = 0; textIndex <= textLen - patternLen; textIndex++){
+            String currentSub = text.substring(textIndex, textIndex + patternLen);
+            int currentHash = currentSub.hashCode();
+            if(currentHash == patternHash && pattern.equals(currentSub)) return true;
+        }
+
         return false;
     }
 }
