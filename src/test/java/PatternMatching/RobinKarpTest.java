@@ -43,4 +43,20 @@ public class RobinKarpTest {
         boolean result = underTest.searchPattern(text, pattern);
         Assertions.assertFalse(result);
     }
+
+    @Test
+    public void testSearchPatternFunction3(){
+        String pattern = "dba";
+        String text = "dba";
+        boolean result = underTest.searchPattern(text, pattern);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testoptimizedSearchFunction(){
+        String pattern = "dba";
+        String text = "dba";
+        boolean result = underTest.search(text, pattern);
+        Assertions.assertTrue(result);
+    }
 }
