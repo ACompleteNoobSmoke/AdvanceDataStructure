@@ -53,9 +53,25 @@ public class RobinKarpTest {
     }
 
     @Test
-    public void testoptimizedSearchFunction(){
+    public void testOptimizedSearchFunction(){
         String pattern = "dba";
         String text = "dba";
+        boolean result = underTest.search(text, pattern);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testOptimizedSearchFunction2(){
+        String pattern = "dba";
+        String text = "I will become a fantastic software engineer who will work for FAANG";
+        boolean result = underTest.search(text, pattern);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testOptimizedSearchFunction3(){
+        String pattern = "soft";
+        String text = "I will become a fantastic software engineer who will work for FAANG";
         boolean result = underTest.search(text, pattern);
         Assertions.assertTrue(result);
     }
