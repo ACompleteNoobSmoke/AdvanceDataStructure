@@ -29,4 +29,24 @@ public class RobinKarp {
 
         return hashValues;
     }
+
+    public boolean searchPattern(String text, String pattern){
+        int textLen = text.length();
+        int patternLen = pattern.length();
+        if (patternLen > textLen) return false;
+        if (patternLen == textLen) return text.equals(pattern);
+        int base = 10;
+        int patternValues = getHashValue(pattern, base);
+        int textPointer = 0;
+
+        while (textPointer <= textLen - patternLen){
+            String currSub = text.substring(textPointer, textPointer + patternLen);
+            int hashValues = getHashValue(pattern, base);
+            if (hashValues == patternValues){
+                if (pattern.equals(currSub)) return true;
+            }
+            textPointer++;
+        }
+        return false;
+    }
 }
