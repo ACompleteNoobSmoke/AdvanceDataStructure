@@ -27,4 +27,20 @@ public class RobinKarpTest {
         int result = 421;
         Assertions.assertEquals(result, underTest.getHashValue(pattern, base));
     }
+
+    @Test
+    public void testSearchPatternFunction(){
+        String pattern = "dba";
+        String text = "I will become a fantastic software engineer who will work for FAANGdba";
+        boolean result = underTest.searchPattern(text, pattern);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testSearchPatternFunction2(){
+        String pattern = "dba";
+        String text = "I will become a fantastic software engineer who will work for FAANG";
+        boolean result = underTest.searchPattern(text, pattern);
+        Assertions.assertFalse(result);
+    }
 }
