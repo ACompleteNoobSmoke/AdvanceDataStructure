@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
-    List<Vertex> vertices;
-    int[][] matrix;
+    private List<Vertex<Character>> vertices;
+    private int[][] matrix;
 
     public Graph(int size){
         matrix = new int[size][size];
         vertices = new ArrayList<>();
     }
 
-    public void addVertex(Vertex node){
-        vertices.add(node);
+    public void addVertex(Vertex<Character> newNode){
+        vertices.add(newNode);
     }
 
     public void addEdge(int src, int dest){
@@ -26,8 +26,9 @@ public class Graph {
 
     public void print(){
         System.out.print("  ");
-        vertices.forEach(n -> System.out.print(n.getData() + " "));
+        vertices.forEach(v -> System.out.print(v.getData() + " "));
         System.out.println();
+
         for (int i = 0; i < matrix.length; i++){
             System.out.print(vertices.get(i).getData() + " ");
             for (int j = 0; j < matrix[i].length; j++){
