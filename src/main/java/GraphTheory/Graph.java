@@ -8,12 +8,12 @@ public class Graph {
     private int[][] matrix;
 
     public Graph(int size){
+        vertices = new ArrayList<>(size);
         matrix = new int[size][size];
-        vertices = new ArrayList<>();
     }
 
-    public void addVertex(Vertex<Character> newNode){
-        vertices.add(newNode);
+    public void addVertex(Vertex newVertix){
+        vertices.add(newVertix);
     }
 
     public void addEdge(int src, int dest){
@@ -29,7 +29,7 @@ public class Graph {
         vertices.forEach(v -> System.out.print(v.getData() + " "));
         System.out.println();
 
-        for (int i = 0; i < matrix.length; i++){
+        for(int i = 0; i < matrix.length; i++){
             System.out.print(vertices.get(i).getData() + " ");
             for (int j = 0; j < matrix[i].length; j++){
                 System.out.print(matrix[i][j] + " ");
@@ -37,4 +37,5 @@ public class Graph {
             System.out.println();
         }
     }
+
 }

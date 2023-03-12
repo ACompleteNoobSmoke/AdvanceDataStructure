@@ -1,11 +1,14 @@
 package GraphTheory;
 
+import lombok.Data;
+
+@Data
 public class Vertex<T> {
     private T data;
-    public Vertex(T data){
+    private int point;
+    public Vertex(T data, int point){
         if (data == null){ throw new IllegalArgumentException("Data Is Null"); }
         this.data = data;
+        this.point = point;
     }
-
-    public T getData(){ return data; }
 }
