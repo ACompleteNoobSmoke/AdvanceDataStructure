@@ -2,24 +2,21 @@ package GraphTheory;
 
 import lombok.Data;
 
+
 @Data
-public class Edge<T> implements Comparable<Edge<? super T>> {
-    private Vertex<T> start;
-    private Vertex<T> end;
-    private int startPoint;
-    private int endPoint;
+public class Edge<T> implements Comparable<Edge<? super Edge<T>>>{
+    private Vertex<T> startVertex;
+    private Vertex<T> endVertex;
     private int weight;
 
-    public Edge(Vertex start, Vertex end){
-        this.start = start;
-        this.end = end;
-        this.startPoint = start.getPoint();
-        this.endPoint = end.getPoint();
-        this.weight = Math.abs(startPoint - endPoint);
+    public Edge(Vertex<T> startVertex, Vertex<T> endVertex){
+        this.startVertex = startVertex;
+        this.endVertex = endVertex;
+        this.weight = Math.abs(startVertex.getGraphPoint() - endVertex.getGraphPoint());
     }
 
     @Override
-    public int compareTo(Edge<? super T> o) {
-        return this.weight - o.getWeight();
+    public int compareTo(Edge<? super Edge<T>> o) {
+        return weight - o.getWeight();
     }
 }

@@ -2,53 +2,56 @@ package GraphTheory;
 
 import java.util.*;
 
-public class GraphMatrix<T> implements Comparator<Edge<? super  T>> {
-    List<T> data;
+public class GraphMatrix<T> implements Comparable<Edge<? super Edge<T>>>{
     private Set<Vertex<T>> vertices;
     private Set<Edge<T>> edges;
+    Comparator<Vertex<T>> comparator;
     private int[][] matrix;
 
-    public GraphMatrix(Set vertices, Set edges, int size){
-        data = new ArrayList<>();
+    public GraphMatrix(Set<Vertex<T>> vertices, Set<Edge<T>> edges, int size){
         this.vertices = vertices;
         this.edges = edges;
-        matrix = new int[size][size];
+        this.matrix = new int[size][size];
+        comparator = Comparator.comparingInt(Vertex::getGraphPoint);
     }
 
     public void addVertices(Vertex<T> newVertex){
         vertices.add(newVertex);
-        data.add(newVertex.getData());
     }
 
     public void addEdge(Edge<T> newEdge){
         edges.add(newEdge);
-        if(!checkEdge(newEdge))
-            addEdgeToMatrix(newEdge);
+        addEdgeToMatrix(newEdge);
     }
 
     private void addEdgeToMatrix(Edge<T> newEdge){
-        matrix[newEdge.getStartPoint()][newEdge.getEndPoint()] = 1;
+        int src = newEdge.getStartVertex().getGraphPoint();
+        int dest = newEdge.getEndVertex().getGraphPoint();
+        matrix[src][dest] = 1;
     }
 
-    public boolean checkEdge(Edge<T> checkThis){
-        return matrix[checkThis.getStartPoint()][checkThis.getEndPoint()] == 1;
+    public boolean checkEdge(T src, T dest){
+        for (Edge<T> edge: edges){
+            T start = edge.getStartVertex().getData();
+            T end = edge.getEndVertex().getData();
+            if (start.equals(src) && end.equals(dest))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean checkMatrix(int src, int dest){
+        return matrix[src][dest] == 1;
     }
 
     public void print(){
+        List<Vertex<T>> headerList = vertices.stream().sorted(comparator).toList();
         System.out.print("  ");
-        //vertices.stream().sorted().forEach(v -> System.out.print(v.getData() + " "));
-        Comparator<Vertex<T>> comp = new Comparator<Vertex<T>>() {
-            @Override
-            public int compare(Vertex<T> o1, Vertex<T> o2) {
-                return o1.getPoint() - o2.getPoint();
-            }
-        };
-        vertices.stream().sorted(comp).forEach(v -> System.out.print(v.getData() + " "));
+        headerList.forEach(h -> System.out.print(h.getData() + " "));
         System.out.println();
 
-
         for (int i = 0; i < matrix.length; i++){
-            System.out.print(data.get(i) + " ");
+            System.out.print(headerList.get(i).getData() + " ");
             for (int j = 0; j < matrix[i].length; j++){
                 System.out.print(matrix[i][j] + " ");
             }
@@ -57,7 +60,7 @@ public class GraphMatrix<T> implements Comparator<Edge<? super  T>> {
     }
 
     @Override
-    public int compare(Edge<? super T> o1, Edge<? super T> o2) {
-        return 0;
+    public int compareTo(Edge<? super Edge<T>> o) {
+        return compareTo(o);
     }
 }
