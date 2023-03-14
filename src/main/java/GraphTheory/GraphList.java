@@ -2,6 +2,7 @@ package GraphTheory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class GraphList<T> extends Graph<T>{
@@ -24,9 +25,33 @@ public class GraphList<T> extends Graph<T>{
     public void addEdge(Edge<T> newEdge){
         boolean added = edges.add(newEdge);
         if(!added) return;
-        edges.add(newEdge);
-        LinkedList<Vertex<T>> current = vertexList.get(newEdge.getStartVertex().getGraphPoint());
-        //Vertex<T> tail = vertexList.get(newEdge.getEndVertex().getGraphPoint());
-        //current.addLast(tail);
+        int src = newEdge.getStartVertex().getGraphPoint();
+        int dest = newEdge.getEndVertex().getGraphPoint();
+        addEdgeToList(src, dest);
+    }
+
+    private void addEdgeToList(int src, int dest){
+        LinkedList<Vertex<T>> current = vertexList.get(src);
+        Vertex<T> tail = vertexList.get(dest).get(0);
+        current.addLast(tail);
+    }
+
+    public boolean checkEdge(int src, int dest){
+        for (Edge<T> edge : edges)
+            if(edge.getStartVertex().getGraphPoint() == src &&
+                edge.getEndVertex().getGraphPoint() == dest) return true;
+        return false;
+    }
+
+    @Override
+    public void print(){
+        for (int i = 0; i < vertexList.size(); i++){
+            LinkedList<Vertex<T>> vert = vertexList.get(i);
+            for (int j = 0; j < vert.size(); j++){
+                System.out.print(vert.get(j).getData());
+                if (j != vert.size() - 1) System.out.print(" -> ");
+            }
+            System.out.println();
+        }
     }
 }
