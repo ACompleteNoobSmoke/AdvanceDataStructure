@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 
-public class GraphMatrixTest {
-    private GraphMatrix<Character> underTest;
+public class GraphListTest {
+    private GraphList<Character> underTest;
 
     @Test
     public void graphTest1(){
@@ -22,8 +22,9 @@ public class GraphMatrixTest {
         Edge<Character> edge4 = new Edge<>(vertex4, vertex2);
         Edge<Character> edge5 = new Edge<>(vertex5, vertex4);
         Edge<Character> edge6 = new Edge<>(vertex6, vertex3);
+        Edge<Character> edge7 = new Edge<>(vertex2, vertex4);
 
-        underTest = new GraphMatrix<>(new HashSet<>(), new HashSet<>(), 6);
+        underTest = new GraphList<>(new HashSet<>(), new HashSet<>());
         underTest.addVertices(vertex1);
         underTest.addVertices(vertex2);
         underTest.addVertices(vertex3);
@@ -37,6 +38,7 @@ public class GraphMatrixTest {
         underTest.addEdge(edge4);
         underTest.addEdge(edge5);
         underTest.addEdge(edge6);
+        underTest.addEdge(edge7);
 
         underTest.print();
 
