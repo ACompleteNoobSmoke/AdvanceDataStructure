@@ -1,41 +1,31 @@
 package GraphTheory;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
-public class Graph {
-    private List<Vertex<Character>> vertices;
-    private int[][] matrix;
+public abstract class Graph<T> {
+    protected Set<Vertex<T>> vertices;
+    protected Set<Edge<T>> edges;
+    protected Comparator<Vertex<T>> comparator;
 
-    public Graph(int size){
-        vertices = new ArrayList<>(size);
-        matrix = new int[size][size];
+    public Graph(Set<Vertex<T>> vertices, Set<Edge<T>> edges){
+        this.vertices = vertices;
+        this.edges = edges;
+        comparator = Comparator.comparingInt(Vertex::getGraphPoint);
     }
 
-    public void addVertex(Vertex newVertix){
-        vertices.add(newVertix);
+    public void addVertices(Vertex<T> newVertex){
+        vertices.add(newVertex);
     }
 
-    public void addEdge(int src, int dest){
-        matrix[src][dest] = 1;
+    public void addEdge(Edge<T> newEdge){
+        edges.add(newEdge);
     }
 
-    public boolean checkEdge(int src, int dest){
-        return matrix[src][dest] == 1;
-    }
+    public abstract boolean checkEdge(int src, int dest);
 
-    public void print(){
-        System.out.print("  ");
-        vertices.forEach(v -> System.out.print(v.getData() + " "));
-        System.out.println();
-
-        for(int i = 0; i < matrix.length; i++){
-            System.out.print(vertices.get(i).getData() + " ");
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+    protected abstract void print();
 
 }

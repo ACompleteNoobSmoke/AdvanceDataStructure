@@ -2,8 +2,6 @@ package GraphTheory;
 
 import lombok.Data;
 
-import java.util.Comparator;
-
 @Data
 public class Vertex<T>  {
     private T data;
