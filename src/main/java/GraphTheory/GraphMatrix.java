@@ -1,19 +1,21 @@
 package GraphTheory;
 
-import java.util.*;
 
-public class GraphMatrix<T> extends Graph<T>{
+import java.util.List;
+import java.util.Set;
+
+public class GraphMatrix<T> extends Graph<T> {
     private int[][] matrix;
-    public GraphMatrix(Set<Vertex<T>> vertices, Set<Edge<T>> edges, int size){
-        super(vertices, edges);
+    public GraphMatrix(Set<Vertex<T>> vertexSet, Set<Edge<T>> edgeSet, int size){
+        super(vertexSet, edgeSet);
         this.matrix = new int[size][size];
     }
 
     @Override
     public void addEdge(Edge<T> newEdge){
-        edges.add(newEdge);
+        if(newEdge == null || !edges.add(newEdge)) return;
         int src = newEdge.getStartVertex().getGraphPoint();
-        int dest = newEdge.getStartVertex().getGraphPoint();
+        int dest = newEdge.getEndVertex().getGraphPoint();
         addEdgeToMatrix(src, dest);
     }
 
@@ -26,7 +28,7 @@ public class GraphMatrix<T> extends Graph<T>{
         return matrix[src][dest] == 1;
     }
 
-
+    @Override
     public void print(){
         List<Vertex<T>> header = vertices.stream().sorted(comparator).toList();
         System.out.print("  ");
@@ -41,5 +43,4 @@ public class GraphMatrix<T> extends Graph<T>{
             System.out.println();
         }
     }
-
 }
