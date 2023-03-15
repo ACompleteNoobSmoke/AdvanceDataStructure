@@ -1,5 +1,6 @@
 package GraphTheory;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -7,8 +8,13 @@ import java.util.HashSet;
 public class GraphMatrixTest {
     private GraphMatrix<Character> underTest;
 
-    @Test
-    public void graphTest1(){
+    @BeforeEach
+    public void setUp(){
+        underTest = new GraphMatrix<>(new HashSet<>(), new HashSet<>(), 6);
+        addVerticesAndEdges();
+    }
+
+    private void addVerticesAndEdges(){
         Vertex<Character> vertex1 = new Vertex<>('A', 0);
         Vertex<Character> vertex2 = new Vertex<>('B', 1);
         Vertex<Character> vertex3 = new Vertex<>('C', 2);
@@ -20,10 +26,9 @@ public class GraphMatrixTest {
         Edge<Character> edge2 = new Edge<>(vertex2, vertex6);
         Edge<Character> edge3 = new Edge<>(vertex3, vertex1);
         Edge<Character> edge4 = new Edge<>(vertex4, vertex2);
-        Edge<Character> edge5 = new Edge<>(vertex5, vertex4);
+        Edge<Character> edge5 = new Edge<>(vertex2, vertex4);
         Edge<Character> edge6 = new Edge<>(vertex6, vertex3);
 
-        underTest = new GraphMatrix<>(new HashSet<>(), new HashSet<>(), 6);
         underTest.addVertices(vertex1);
         underTest.addVertices(vertex2);
         underTest.addVertices(vertex3);
@@ -37,10 +42,15 @@ public class GraphMatrixTest {
         underTest.addEdge(edge4);
         underTest.addEdge(edge5);
         underTest.addEdge(edge6);
+    }
 
+    @Test
+    public void graphTest1(){
         underTest.print();
+    }
 
-
-
+    @Test
+    public void dfsSearchTest(){
+        underTest.DFS('E');
     }
 }
