@@ -2,29 +2,26 @@ package GraphTheory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
-public class GraphList<T> extends Graph<T>{
+public class GraphList<T> extends Graph<T> {
     private ArrayList<LinkedList<Vertex<T>>> vertexList;
     public GraphList(Set<Vertex<T>> vertices, Set<Edge<T>> edges){
         super(vertices, edges);
-        vertexList = new ArrayList<>();
+        this.vertexList = new ArrayList<>();
     }
 
     @Override
     public void addVertices(Vertex<T> newVertex){
-        boolean added = vertices.add(newVertex);
-        if(!added) return;
-        LinkedList<Vertex<T>> linkedList = new LinkedList<>();
-        linkedList.addFirst(newVertex);
-        vertexList.add(newVertex.getGraphPoint(),linkedList);
+        if (newVertex == null || !vertices.add(newVertex)) return;
+        LinkedList<Vertex<T>> current = new LinkedList<>();
+        current.add(newVertex);
+        vertexList.add(newVertex.getGraphPoint(), current);
     }
 
     @Override
     public void addEdge(Edge<T> newEdge){
-        boolean added = edges.add(newEdge);
-        if(!added) return;
+        if(newEdge == null || !edges.add(newEdge)) return;
         int src = newEdge.getStartVertex().getGraphPoint();
         int dest = newEdge.getEndVertex().getGraphPoint();
         addEdgeToList(src, dest);
@@ -36,22 +33,28 @@ public class GraphList<T> extends Graph<T>{
         current.addLast(tail);
     }
 
+    @Override
     public boolean checkEdge(int src, int dest){
-        for (Edge<T> edge : edges)
-            if(edge.getStartVertex().getGraphPoint() == src &&
-                edge.getEndVertex().getGraphPoint() == dest) return true;
+        LinkedList<Vertex<T>> current = vertexList.get(src);
+        Vertex<T> tail = vertexList.get(dest).get(0);
+        if (current == null || tail == null) return false;
+        for (Vertex<T> vert : current){
+            if (vert.getGraphPoint() == tail.getGraphPoint()) return true;
+        }
         return false;
     }
 
     @Override
     public void print(){
         for (int i = 0; i < vertexList.size(); i++){
-            LinkedList<Vertex<T>> vert = vertexList.get(i);
-            for (int j = 0; j < vert.size(); j++){
-                System.out.print(vert.get(j).getData());
-                if (j != vert.size() - 1) System.out.print(" -> ");
+            for (int j = 0; j < vertexList.get(i).size(); j++){
+                System.out.print(vertexList.get(i).get(j).getData());
+                if (j != vertexList.get(i).size() - 1) System.out.print(" -> ");
             }
             System.out.println();
         }
     }
 }
+
+
+
