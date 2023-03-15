@@ -43,4 +43,35 @@ public class GraphMatrix<T> extends Graph<T> {
             System.out.println();
         }
     }
+
+    public void DFS(T srcChar){
+        boolean[] visited = new boolean[matrix.length];
+        List<Vertex<T>> vertList = vertices.stream().sorted(comparator).toList();
+        Vertex<T> current = getVertex(srcChar, vertList);
+        if (current == null) return;
+        int src = current.getGraphPoint();
+        DFSHelper(src, visited, vertList);
+    }
+
+    private void DFSHelper(int src, boolean[] visited, List<Vertex<T>> vertList){
+        if (visited[src]) return;
+        else{
+            visited[src] = true;
+            System.out.println(vertList.get(src).getData() + ": Visited!");
+        }
+
+        for (int i = 0; i < matrix[src].length; i++){
+            if (checkEdge(src, i)) DFSHelper(i, visited, vertList);
+        }
+        return;
+    }
+
+    private Vertex<T> getVertex(T srcChar, List<Vertex<T>> vertList) {
+        for (Vertex<T> vert : vertList){
+            if (vert.getData().equals(srcChar))
+                return vert;
+        }
+        return null;
+    }
+
 }
