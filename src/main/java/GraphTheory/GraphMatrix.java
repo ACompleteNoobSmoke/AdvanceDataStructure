@@ -1,42 +1,66 @@
 package GraphTheory;
 
-
 import java.util.List;
 import java.util.Set;
 
-public class GraphMatrix<T> extends Graph<T> {
-    private int[][] matrix;
-    public GraphMatrix(Set<Vertex<T>> vertexSet, Set<Edge<T>> edgeSet, int size){
-        super(vertexSet, edgeSet);
+public class GraphMatrix<T> extends Graph<T>{
+    private final int[][] matrix;
+
+    public GraphMatrix(Set<Vertex<T>> vertices, Set<Edge<T>> edges, int size){
+        super(vertices, edges);
         this.matrix = new int[size][size];
     }
 
     @Override
     public void addEdge(Edge<T> newEdge){
-        if(newEdge == null || !edges.add(newEdge)) return;
+        if (!edges.add(newEdge)) return;
         int src = newEdge.getStartVertex().getGraphPoint();
         int dest = newEdge.getEndVertex().getGraphPoint();
         addEdgeToMatrix(src, dest);
     }
 
     private void addEdgeToMatrix(int src, int dest){
+        int matrixLen = matrix.length;
+        if (src >= matrixLen || dest >= matrixLen) return;
         matrix[src][dest] = 1;
     }
 
     @Override
     public boolean checkEdge(int src, int dest){
+        int matrixLen = matrix.length;
+        if (src >= matrixLen || dest >= matrixLen) return false;
         return matrix[src][dest] == 1;
+    }
+
+    public void DFS(T src){
+        Vertex<T> current = getVertex(src);
+        if (current ==  null) return;
+        List<Vertex<T>> listOfVertices = getListOfData();
+        int srcPoint = current.getGraphPoint();
+        DFSHelper(srcPoint, new boolean[matrix.length], listOfVertices);
+    }
+
+    private void DFSHelper(int srcPoint, boolean[] visited, List<Vertex<T>> listOfVertices) {
+        if (visited[srcPoint]) return;
+        else {
+            visited[srcPoint] = true;
+            System.out.println(listOfVertices.get(srcPoint).getData() + ": Visited!");
+        }
+
+        for (int i = 0; i < matrix[srcPoint].length; i++){
+            if (checkEdge(srcPoint, i)) DFSHelper(i, visited, listOfVertices);
+        }
     }
 
     @Override
     public void print(){
-        List<Vertex<T>> header = vertices.stream().sorted(comparator).toList();
+        List<Vertex<T>> headers = getListOfData();
         System.out.print("  ");
-        header.forEach(v -> System.out.print(v.getData() + " "));
+        headers.forEach(v -> System.out.print(v.getData() + " "));
         System.out.println();
 
         for (int i = 0; i < matrix.length; i++){
-            System.out.print(header.get(i).getData() + " ");
+            System.out.print(headers.get(i).getData() + " ");
             for (int j = 0; j < matrix[i].length; j++){
                 System.out.print(matrix[i][j] + " ");
             }
@@ -44,34 +68,13 @@ public class GraphMatrix<T> extends Graph<T> {
         }
     }
 
-    public void DFS(T srcChar){
-        boolean[] visited = new boolean[matrix.length];
-        List<Vertex<T>> vertList = vertices.stream().sorted(comparator).toList();
-        Vertex<T> current = getVertex(srcChar, vertList);
-        if (current == null) return;
-        int src = current.getGraphPoint();
-        DFSHelper(src, visited, vertList);
+    private List<Vertex<T>> getListOfData(){
+        return vertices.stream().sorted(comparator).toList();
     }
 
-    private void DFSHelper(int src, boolean[] visited, List<Vertex<T>> vertList){
-        if (visited[src]) return;
-        else{
-            visited[src] = true;
-            System.out.println(vertList.get(src).getData() + ": Visited!");
-        }
-
-        for (int i = 0; i < matrix[src].length; i++){
-            if (checkEdge(src, i)) DFSHelper(i, visited, vertList);
-        }
-        return;
-    }
-
-    private Vertex<T> getVertex(T srcChar, List<Vertex<T>> vertList) {
-        for (Vertex<T> vert : vertList){
-            if (vert.getData().equals(srcChar))
-                return vert;
-        }
+    private Vertex<T> getVertex(T src){
+        for (Vertex<T> vert : vertices)
+            if (vert.getData().equals(src)) return vert;
         return null;
     }
-
 }
