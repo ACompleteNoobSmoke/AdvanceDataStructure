@@ -1,5 +1,6 @@
 package GraphTheory;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,11 +32,37 @@ public class GraphList<T> extends Graph<T>{
 
     @Override
     public boolean checkEdge(int src, int dest){
+        System.out.println(src);
         LinkedList<Vertex<T>> currentList = listOfData.get(src);
         if (currentList == null) return false;
         for (Vertex<T> vert: currentList)
             if (vert.getGraphPoint() == dest) return true;
         return false;
+    }
+
+    public void DFS(T src){
+        Vertex<T> currentVertex = getVertex(src);
+        if (currentVertex == null) return;
+        int srcPoint = currentVertex.getGraphPoint();
+        DFSHelper(srcPoint, new boolean[listOfData.size()]);
+    }
+
+    private void DFSHelper(int srcPoint, boolean[] visited){
+        if (visited[srcPoint]) return;
+        else{
+            visited[srcPoint] = true;
+            System.out.println(listOfData.get(srcPoint).get(0).getData() + ": Visited!");
+        }
+
+        for (Vertex<T> vert: listOfData.get(srcPoint)){
+            DFSHelper(vert.getGraphPoint(), visited);
+        }
+    }
+
+    private Vertex<T> getVertex(T src){
+        for (Vertex<T> vertex: vertices)
+            if (vertex.getData().equals(src)) return vertex;
+        return null;
     }
 
     @Override
