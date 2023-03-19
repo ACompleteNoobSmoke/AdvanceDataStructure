@@ -2,59 +2,52 @@ package GraphTheory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
-public class GraphList<T> extends Graph<T> {
-    private ArrayList<LinkedList<Vertex<T>>> vertexList;
-    public GraphList(Set<Vertex<T>> vertices, Set<Edge<T>> edges){
-        super(vertices, edges);
-        this.vertexList = new ArrayList<>();
+public class GraphList<T> extends Graph<T>{
+    private final List<LinkedList<Vertex<T>>> listOfData;
+
+    public GraphList(Set<Vertex<T>> vertexSet, Set<Edge<T>> edges){
+        super(vertexSet, edges);
+        this.listOfData = new ArrayList<>();
     }
 
     @Override
     public void addVertices(Vertex<T> newVertex){
-        if (newVertex == null || !vertices.add(newVertex)) return;
-        LinkedList<Vertex<T>> current = new LinkedList<>();
-        current.add(newVertex);
-        vertexList.add(newVertex.getGraphPoint(), current);
+        if (!vertices.add(newVertex)) return;
+        LinkedList<Vertex<T>> newList = new LinkedList<>();
+        newList.add(newVertex);
+        listOfData.add(newVertex.getGraphPoint(), newList);
     }
 
     @Override
     public void addEdge(Edge<T> newEdge){
-        if(newEdge == null || !edges.add(newEdge)) return;
-        int src = newEdge.getStartVertex().getGraphPoint();
-        int dest = newEdge.getEndVertex().getGraphPoint();
-        addEdgeToList(src, dest);
-    }
-
-    private void addEdgeToList(int src, int dest){
-        LinkedList<Vertex<T>> current = vertexList.get(src);
-        Vertex<T> tail = vertexList.get(dest).get(0);
-        current.addLast(tail);
+        if (!edges.add(newEdge)) return;
+        LinkedList<Vertex<T>> currentList = listOfData.get(newEdge.getStartVertex().getGraphPoint());
+        Vertex<T> tail = listOfData.get(newEdge.getEndVertex().getGraphPoint()).get(0);
+        currentList.addLast(tail);
     }
 
     @Override
     public boolean checkEdge(int src, int dest){
-        LinkedList<Vertex<T>> current = vertexList.get(src);
-        Vertex<T> tail = vertexList.get(dest).get(0);
-        if (current == null || tail == null) return false;
-        for (Vertex<T> vert : current){
-            if (vert.getGraphPoint() == tail.getGraphPoint()) return true;
-        }
+        LinkedList<Vertex<T>> currentList = listOfData.get(src);
+        if (currentList == null) return false;
+        for (Vertex<T> vert: currentList)
+            if (vert.getGraphPoint() == dest) return true;
         return false;
     }
 
     @Override
     public void print(){
-        for (int i = 0; i < vertexList.size(); i++){
-            for (int j = 0; j < vertexList.get(i).size(); j++){
-                System.out.print(vertexList.get(i).get(j).getData());
-                if (j != vertexList.get(i).size() - 1) System.out.print(" -> ");
+        for (LinkedList<Vertex<T>> listOfDatum : listOfData) {
+            for (int j = 0; j < listOfDatum.size(); j++) {
+                System.out.print(listOfDatum.get(j).getData());
+                if (j != listOfDatum.size() - 1) System.out.print(" -> ");
             }
             System.out.println();
         }
     }
-
 }
 
 
