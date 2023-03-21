@@ -47,12 +47,13 @@ public class GraphMatrixTest {
     @Test
     public void graphTest1(){
         underTest.print();
+        System.out.println();
     }
 
     @Test
     public void dfsSearchTest(){
         System.out.println("\nDepth First Search\n");
-        underTest.DFS('C');
+        underTest.DFS('A');
     }
 
     @Test

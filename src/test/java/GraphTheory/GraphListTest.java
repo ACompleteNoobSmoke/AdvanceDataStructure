@@ -52,6 +52,13 @@ public class GraphListTest {
 
     @Test
     public void dfsSearchTest(){
+        System.out.println("\nDepth First Search\n");
         underTest.DFS('A');
+    }
+
+    @Test
+    public void bfsSearchTest(){
+        System.out.println("\nBreadth First Search\n");
+        underTest.BFS('A');
     }
 }
