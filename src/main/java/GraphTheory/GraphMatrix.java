@@ -53,22 +53,21 @@ public class GraphMatrix<T> extends Graph<T>{
         Vertex<T> currentVertex = getVertex(src);
         if (currentVertex == null) return;
 
+        int currentPoint = currentVertex.getGraphPoint();
         Queue<Integer> bfsQ = new LinkedList<>();
         boolean[] visited = new boolean[matrix.length];
-        bfsQ.offer(currentVertex.getGraphPoint());
         List<Vertex<T>> sortedList = getSortedListOfVertex();
+        bfsQ.offer(currentPoint);
 
         while (!bfsQ.isEmpty()){
-            int currentPoint = bfsQ.poll();
+            currentPoint = bfsQ.poll();
             if(!visited[currentPoint]){
                 visited[currentPoint] = true;
                 System.out.println(sortedList.get(currentPoint).getData() + ": Visited!");
             }
 
-            for (int i = 0; i < matrix[currentPoint].length; i++){
-                if (checkEdge(currentPoint, i) && !visited[i])
-                    bfsQ.offer(i);
-            }
+            for (int i = 0; i < matrix[currentPoint].length; i++)
+                if (checkEdge(currentPoint, i) && !visited[i]) bfsQ.offer(i);
         }
     }
 
