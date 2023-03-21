@@ -2,20 +2,20 @@ package GraphTheory;
 
 import java.util.*;
 
-public class GraphList<T> extends Graph<T>{
-    private List<LinkedList<Vertex<T>>> listOfVertices;
+public class GraphList<T> extends Graph<T> {
+    private final List<LinkedList<Vertex<T>>> listOfVertices;
 
-    public GraphList(Set<Vertex<T>> vertexSet, Set<Edge<T>> edges){
-        super(vertexSet, edges);
-        listOfVertices = new ArrayList<>();
+    public GraphList(Set<Vertex<T>> vertices, Set<Edge<T>> edges){
+        super(vertices, edges);
+        this.listOfVertices = new ArrayList<>();
     }
 
     @Override
     public void addVertices(Vertex<T> newVertex){
         if (!vertices.add(newVertex)) return;
-        LinkedList<Vertex<T>> currentList = new LinkedList<Vertex<T>>();
-        currentList.add(newVertex);
-        listOfVertices.add(newVertex.getGraphPoint(), currentList);
+        LinkedList<Vertex<T>> newVertexList = new LinkedList<>();
+        newVertexList.add(newVertex);
+        listOfVertices.add(newVertex.getGraphPoint(), newVertexList);
     }
 
     @Override
@@ -23,11 +23,12 @@ public class GraphList<T> extends Graph<T>{
         if (!edges.add(newEdge)) return;
         int src = newEdge.getStartVertex().getGraphPoint();
         int dest = newEdge.getEndVertex().getGraphPoint();
-        addEdgeToLinkedList(src, dest);
+        addEdgeToList(src, dest);
     }
 
-    private void addEdgeToLinkedList(int src, int dest){
+    private void addEdgeToList(int src, int dest){
         LinkedList<Vertex<T>> currentList = listOfVertices.get(src);
+        if (currentList == null) return;
         Vertex<T> tail = listOfVertices.get(dest).get(0);
         currentList.addLast(tail);
     }
@@ -36,46 +37,60 @@ public class GraphList<T> extends Graph<T>{
     public boolean checkEdge(int src, int dest){
         LinkedList<Vertex<T>> currentList = listOfVertices.get(src);
         if (currentList == null) return false;
-        for (Vertex<T> vert : currentList){
-            if (vert.getGraphPoint() == dest) return true;
-        }
+        for (Vertex<T> tail: currentList)
+            if (tail.getGraphPoint() == dest) return true;
         return false;
     }
-
 
     public void DFS(T src){
         Vertex<T> currentVertex = getVertex(src);
         if (currentVertex == null) return;
-        DFSHelper(currentVertex.getGraphPoint(), new HashSet<>());
+        int srcPoint = currentVertex.getGraphPoint();
+        DFSHelper(srcPoint, new HashSet<>());
     }
 
-    private void DFSHelper(int src, Set<Integer> visited){
-        if (!visited.add(src)) return;
-        LinkedList<Vertex<T>> current = listOfVertices.get(src);
-        System.out.println(current.get(0).getData() + ": Visited!");
-        for (Vertex<T> vert: current)
-            DFSHelper(vert.getGraphPoint(), visited);
+    private void DFSHelper(int srcPoint, Set<Integer> visited){
+        LinkedList<Vertex<T>> current = listOfVertices.get(srcPoint);
+        for (Vertex<T> vert: current){
+            if(visited.add(vert.getGraphPoint())){
+                System.out.println(vert.getData() + ": Visited!");
+                DFSHelper(vert.getGraphPoint(), visited);
+            }
+        }
     }
 
-    private Vertex<T> getVertex(T src){
-        for (Vertex<T> vert : vertices)
-            if (vert.getData().equals(src)) return vert;
-        return null;
-    }
+    public void BFS(T src){
+        Vertex<T> currentVertex = getVertex(src);
+        if (currentVertex == null) return;
 
-    private List<Vertex<T>> getListOfVertex(){
-        return vertices.stream().sorted(comparator).toList();
+        Queue<Integer> bfsQ = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        bfsQ.offer(currentVertex.getGraphPoint());
+
+        while (!bfsQ.isEmpty()){
+            int currentPoint = bfsQ.poll();
+            if (!visited.add(currentPoint)) continue;
+            LinkedList<Vertex<T>> vert = listOfVertices.get(currentPoint);
+            System.out.println(vert.get(0).getData() + ": Visited!");
+            vert.forEach(v -> bfsQ.offer(v.getGraphPoint()));
+        }
     }
 
     @Override
     public void print(){
-        for (LinkedList<Vertex<T>> vert : listOfVertices){
-            for (int i = 1; i <= vert.size(); i++){
-                System.out.print(vert.get(i).getData());
-                if (i != vert.size()) System.out.print(" -> ");
+        for (LinkedList<Vertex<T>> vertices: listOfVertices){
+            for (int i = 0; i < vertices.size(); i++){
+                System.out.print(vertices.get(i).getData());
+                if (i != vertices.size() - 1) System.out.print(" -> ");
             }
             System.out.println();
         }
+    }
+
+    private Vertex<T> getVertex(T src){
+        for (Vertex<T> vert: vertices)
+            if (vert.getData().equals(src)) return vert;
+        return null;
     }
 }
 
