@@ -52,6 +52,6 @@ public class GraphListTest {
 
     @Test
     public void dfsSearchTest(){
-        underTest.DFS('E');
+        underTest.DFS('A');
     }
 }

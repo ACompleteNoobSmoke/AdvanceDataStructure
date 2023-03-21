@@ -51,6 +51,13 @@ public class GraphMatrixTest {
 
     @Test
     public void dfsSearchTest(){
-        underTest.DFS('A');
+        System.out.println("\nDepth First Search\n");
+        underTest.DFS('C');
+    }
+
+    @Test
+    public void bfsSearchTest(){
+        System.out.println("\nBreadth First Search\n");
+        underTest.BFS('C');
     }
 }
