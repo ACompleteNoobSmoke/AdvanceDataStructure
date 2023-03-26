@@ -3,7 +3,7 @@ package GraphTheory;
 import java.util.*;
 
 public class GraphMatrix<T> extends Graph<T>{
-    private int[][] matrixGraph;
+    private final int[][] matrixGraph;
 
     public GraphMatrix(Set<Vertex<T>> vertices, Set<Edge<T>> edges, int size){
         super(vertices, edges);
