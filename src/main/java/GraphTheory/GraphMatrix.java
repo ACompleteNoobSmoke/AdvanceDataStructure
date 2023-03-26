@@ -3,11 +3,11 @@ package GraphTheory;
 import java.util.*;
 
 public class GraphMatrix<T> extends Graph<T>{
-    private final int[][] matrix;
+    private int[][] matrixGraph;
 
     public GraphMatrix(Set<Vertex<T>> vertices, Set<Edge<T>> edges, int size){
         super(vertices, edges);
-        this.matrix = new int[size][size];
+        this.matrixGraph = new int[size][size];
     }
 
     @Override
@@ -15,87 +15,82 @@ public class GraphMatrix<T> extends Graph<T>{
         if (!edges.add(newEdge)) return;
         int src = newEdge.getStartVertex().getGraphPoint();
         int dest = newEdge.getEndVertex().getGraphPoint();
-        addEdgeToMatrix(src, dest);
+        addEdgeToMatrixGraph(src, dest);
     }
 
-
-    private void addEdgeToMatrix(int src, int dest){
-        matrix[src][dest] = 1;
+    private void addEdgeToMatrixGraph(int src, int dest){
+        matrixGraph[src][dest] = 1;
     }
 
     @Override
     public boolean checkEdge(int src, int dest){
-        return matrix[src][dest] == 1;
+        return matrixGraph[src][dest] == 1;
     }
 
     public void DFS(T src){
-        Vertex<T> current = getVertex(src);
-        if (current == null) return;
-        DFSHelper(current);
-    }
+        Vertex<T> currentVertex = getVertex(src);
+        if (currentVertex == null) return;
 
-    private void DFSHelper(Vertex<T> current){
-        Stack<Vertex<T>> stack = new Stack<>();
+        Stack<Integer> dfsStack = new Stack<>();
         Set<Integer> visited = new HashSet<>();
-        List<Vertex<T>> vertexList = getSortedVertexList();
-        stack.push(current);
+        List<Vertex<T>> vertexList = sortedList();
+        dfsStack.push(currentVertex.getGraphPoint());
 
-        while (!stack.isEmpty()){
-            Vertex<T> vert = stack.pop();
-            int vertPoint = vert.getGraphPoint();
-            if (!visited.add(vertPoint)) continue;
-            System.out.println(vert.getData() + ": Visited!");
+        while (!dfsStack.isEmpty()){
+            int vertexPoint = dfsStack.pop();
+            if (!visited.add(vertexPoint)) continue;
+            System.out.println(vertexList.get(vertexPoint).getData() + ": Visited!");
 
-            for (int i = 0; i < matrix[vert.getGraphPoint()].length; i++)
-                if (checkEdge(vertPoint, i)) stack.push(vertexList.get(i));
+            for (int i = 0; i < matrixGraph[vertexPoint].length; i++){
+                if (checkEdge(vertexPoint, i)) dfsStack.push(i);
+            }
         }
     }
 
     public void BFS(T src){
-        Vertex<T> current = getVertex(src);
-        if (current == null) return;
+        Vertex<T> currentVertex = getVertex(src);
+        if (currentVertex == null) return;
 
-        Queue<Vertex<T>> bfsQ = new LinkedList<>();
+        Queue<Vertex<T>> bfsQueue = new LinkedList<>();
         Set<Integer> visited = new HashSet<>();
-        List<Vertex<T>> sortedList = getSortedVertexList();
-        bfsQ.offer(current);
+        List<Vertex<T>> vertexList = sortedList();
+        bfsQueue.offer(currentVertex);
 
-        while (!bfsQ.isEmpty()){
-            Vertex<T> vertex = bfsQ.poll();
-            int vertexPoint = vertex.getGraphPoint();
-            if (!visited.add(vertexPoint)) continue;
+        while (!bfsQueue.isEmpty()){
+            Vertex<T> vertex = bfsQueue.poll();
+            int graphPoint = vertex.getGraphPoint();
+            if (!visited.add(graphPoint)) continue;
             System.out.println(vertex.getData() + ": Visited!");
 
-            for (int i = 0; i < matrix[vertexPoint].length; i++){
-                if (checkEdge(vertexPoint, i)) bfsQ.offer(sortedList.get(i));
-            }
+            for (int i = 0; i < matrixGraph[graphPoint].length; i++)
+                if (checkEdge(graphPoint, i)) bfsQueue.offer(vertexList.get(i));
         }
     }
 
     @Override
     public void print(){
-        List<Vertex<T>> header = getSortedVertexList();
+        if (vertices.isEmpty()) return;
+        List<Vertex<T>> header = sortedList();
         System.out.print("  ");
         header.forEach(v -> System.out.print(v.getData() + " "));
         System.out.println();
 
-        for (int i = 0; i < matrix.length; i++){
-            System.out.print(header.get(i).getData() + "|");
-            for (int j = 0; j < matrix[i].length; j++){
-                System.out.print(matrix[i][j] + " ");
+        for (int i = 0; i < matrixGraph.length; i++){
+            System.out.print(header.get(i).getData() + ":");
+            for (int j = 0; j < matrixGraph[i].length; j++){
+                System.out.print(matrixGraph[i][j] + " ");
             }
             System.out.println();
         }
     }
 
     private Vertex<T> getVertex(T src){
-        if (vertices.isEmpty()) return null;
-        for (Vertex<T> vert: vertices)
-            if (vert.getData().equals(src)) return vert;
+        for (Vertex<T> vertex : vertices)
+                if (vertex.getData().equals(src)) return vertex;
         return null;
     }
 
-    private List<Vertex<T>> getSortedVertexList(){
+    private List<Vertex<T>> sortedList(){
         return vertices.stream().sorted(comparator).toList();
     }
 }
